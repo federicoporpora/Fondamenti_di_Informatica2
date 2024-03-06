@@ -1,3 +1,6 @@
 {
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": true,
+    "java.project.sourcePaths": [],
+    "java.dependency.packagePresentation": "flat",
+    "java.project.explorer.showNonJavaResources": false
 }
