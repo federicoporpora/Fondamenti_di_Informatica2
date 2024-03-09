@@ -10,6 +10,7 @@ public class CodiceFiscale {
         codiceFiscale += calcolaAnno(anno);
         codiceFiscale += calcolaMese(mese);
         codiceFiscale += calcolaGiornoSesso(giorno, sesso);
+        if (calcolaComune(comune).equals("Non e' stato trovato il comune inserito")) return "Non e' stato trovato il comune inserito";
         codiceFiscale += calcolaComune(comune);
         codiceFiscale += calcolaCarControllo(codiceFiscale);
         return codiceFiscale;
@@ -84,13 +85,13 @@ public class CodiceFiscale {
         return mesi.charAt(mese - 1);
     }
     private static String calcolaGiornoSesso(int giorno, char sesso) {
-        if (Character.toUpperCase(sesso) == 'M') return String.format("%02d", giorno);
-        else return String.format("%02d", giorno + 40);
+        if (Character.toUpperCase(sesso) == 'F') return String.format("%02d", (giorno + 40));
+        else return String.format("%02d", giorno);
     }
     private static String calcolaComune(String comune) {
         comune = comune.toUpperCase();
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("F:\\Fede\\Coding\\Fondamenti_di_Informatica2\\00_esercizi_miei\\02_codice_fiscale\\puppa.csv"));
+            BufferedReader reader = new BufferedReader(new FileReader("00_esercizi_miei/02_codice_fiscale/puppa.csv"));
             String line;
 
             while ((line = reader.readLine()) != null) {
@@ -113,7 +114,7 @@ public class CodiceFiscale {
         }
 
         // Se il comune non è stato trovato, restituisci una stringa vuota
-        return "";
+        return "Non e' stato trovato il comune inserito";
     }
     private static char calcolaCarControllo(String codiceFiscale) {
         String codiceFiscaleDaAnalizzare = codiceFiscale;

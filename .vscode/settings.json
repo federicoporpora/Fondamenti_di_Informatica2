@@ -2,5 +2,6 @@
     "cmake.configureOnOpen": true,
     "java.project.sourcePaths": [],
     "java.dependency.packagePresentation": "flat",
-    "java.project.explorer.showNonJavaResources": false
+    "java.project.explorer.showNonJavaResources": false,
+    "editor.inlayHints.enabled": "off"
 }
