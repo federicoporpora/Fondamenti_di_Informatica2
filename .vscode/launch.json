@@ -13,6 +13,13 @@
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",
+            "projectName": "03_persona"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Main",
             "projectName": "02_codice_fiscale"
         },
         {

@@ -6,6 +6,6 @@ public class Main {
         Andrea.costruttore("Andrea Porpora ", 2007);
         System.out.println(Andrea.getNameAndSurname() + Andrea.getYearOfBirth());
         System.out.println(Federico.getNameAndSurname() + Federico.getYearOfBirth());
-        System.out.println(Federico.isOlderThan(Andrea)); //il king
+        System.out.println(Federico.isOlderThan(Andrea)); //il re
     }
 }
