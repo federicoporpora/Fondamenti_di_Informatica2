@@ -15,6 +15,19 @@ public class CodiceFiscale {
         codiceFiscale += calcolaCarControllo(codiceFiscale);
         return codiceFiscale;
     }
+    public static boolean verificaCodiceFiscale(String cognome, String nome, int giorno, int mese, int anno, String comune, char sesso, String CodiceFiscaleDaVerificare) {
+        String codiceFiscale = "";
+        codiceFiscale += calcolaCognome(cognome);
+        codiceFiscale += calcolaNome(nome);
+        codiceFiscale += calcolaAnno(anno);
+        codiceFiscale += calcolaMese(mese);
+        codiceFiscale += calcolaGiornoSesso(giorno, sesso);
+        if (calcolaComune(comune).equals("Non e' stato trovato il comune inserito")) return false;
+        codiceFiscale += calcolaComune(comune);
+        codiceFiscale += calcolaCarControllo(codiceFiscale);
+        if (CodiceFiscaleDaVerificare.equals(codiceFiscale)) return true;
+        else return false;
+    }
     private static boolean isConsonante(char c) {
         String vocali = "AEIOU";
         return vocali.indexOf(Character.toUpperCase(c)) == -1;
