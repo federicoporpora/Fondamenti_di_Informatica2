@@ -3,5 +3,6 @@
     "java.project.sourcePaths": [],
     "java.dependency.packagePresentation": "flat",
     "java.project.explorer.showNonJavaResources": false,
-    "editor.inlayHints.enabled": "off"
+    "editor.inlayHints.enabled": "off",
+    "java.debug.settings.onBuildFailureProceed": true
 }

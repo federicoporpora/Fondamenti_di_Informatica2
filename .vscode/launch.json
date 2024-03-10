@@ -10,6 +10,45 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MatrixAdvancedInterfaceTest",
+            "request": "launch",
+            "mainClass": "matrici.MatrixAdvancedInterfaceTest",
+            "projectName": "04_matrici",
+            "vmArgs": "-enableassertions"
+            
+        },
+        {
+            "type": "java",
+            "name": "MatrixBaseInterfaceTest",
+            "request": "launch",
+            "mainClass": "matrici.MatrixBaseInterfaceTest",
+            "projectName": "04_matrici",
+            "vmArgs": "-enableassertions"
+        },
+        {
+            "type": "java",
+            "name": "MatrixTestMain",
+            "request": "launch",
+            "mainClass": "matrici.MatrixTestMain",
+            "projectName": "04_matrici"
+        },
+        {
+            "type": "java",
+            "name": "MatriceLibTest",
+            "request": "launch",
+            "mainClass": "libreriastatica.MatriceLibTest",
+            "projectName": "04_matrici",
+            "vmArgs": "-enableassertions"
+        },
+        {
+            "type": "java",
+            "name": "MatriceLibTestMain",
+            "request": "launch",
+            "mainClass": "libreriastatica.MatriceLibTestMain",
+            "projectName": "04_matrici"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",

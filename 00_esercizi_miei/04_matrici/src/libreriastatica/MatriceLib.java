@@ -25,12 +25,13 @@ public class MatriceLib {
     }
     public static void stampaMatrice(double[][] a) {
         StringJoiner esternoJoiner = new StringJoiner(",\n", "{", "}");
-        StringJoiner internoJoiner = new StringJoiner(", ", "{", "}");
         for (int i = 0; i < a.length; i++) {
+            StringJoiner internoJoiner = new StringJoiner(", ", "{", "}");
             for (int j = 0; j < a[i].length; j++) {
                 internoJoiner.add(Double.toString(a[i][j]));
             }
             esternoJoiner.add(internoJoiner.toString());
         }
+        System.out.println(esternoJoiner);
     }
 }
