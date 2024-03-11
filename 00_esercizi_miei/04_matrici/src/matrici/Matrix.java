@@ -32,7 +32,7 @@ public class Matrix {
             }
             colAlreadyRemoved = 0;
         }
-        return res;
+        return (res.isSquared()) ? res : null;
     }
     private double calcDet() {
         if (this.getRows() == 1) return this.getValue(0, 0);
