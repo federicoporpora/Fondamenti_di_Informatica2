@@ -10,9 +10,9 @@ public class Matrix {
     public Matrix(double[][] values) {
         matrix = values;
     }
-    private void setValue(int row, int col, double value) {
-        matrix[row][col] = value;
-    }
+    //private void setValue(int row, int col, double value) {
+    //    matrix[row][col] = value;
+    //}
     public boolean isSquared() {
         return (matrix.length == matrix[0].length) ? true : false;
     }
