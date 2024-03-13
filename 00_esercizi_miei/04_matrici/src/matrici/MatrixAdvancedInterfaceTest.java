@@ -101,12 +101,6 @@ public class MatrixAdvancedInterfaceTest {
 		m1 = new Matrix(new double[][] { { 2, 1, 1, 2 }, { 1, 1, 0, 2 }, { 0, 0, 1, 2 } });
 		minor = m1.extractMinor(2, 2);
 		// assertSame(null, minor);
-		// assert(minor==null); IL PROF HA SBAGLIATO
-		assert(2.0 == minor.getValue(0, 0));
-		assert(1.0 == minor.getValue(0, 1));
-		assert(2.0 == minor.getValue(0, 2));
-		assert(1.0 == minor.getValue(1, 0));
-		assert(1.0 == minor.getValue(1, 1));
-		assert(2.0 == minor.getValue(1, 2));
+		assert(minor==null);
 	}
 }
