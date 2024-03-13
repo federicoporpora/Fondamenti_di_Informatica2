@@ -6,8 +6,8 @@ public class Frazione {
     public Frazione(int n, int d) {
         if (d == 0) {
             num = n;
-            den = 1;
-            System.out.println("Warning: il denominatore richiesto e' 0, ho assegnato invece 1");
+            den = d;
+            System.out.println("Warning: il denominatore richiesto e' 0");
         }
         if (d < 0) {
             num = -n; den = -d;
@@ -22,6 +22,7 @@ public class Frazione {
         return den;
     }
     public boolean equals(Frazione f) {
+        if (this.num == 0 && f.num == 0) return true;
         return (this.num * f.den == this.den * f.num);
     }
     public String toString() {
@@ -45,25 +46,23 @@ public class Frazione {
         Frazione fSum = new Frazione(n, d);
         return fSum.minTerm();
     }
+    public Frazione sub(Frazione f) {
+        Frazione inverted = new Frazione(-f.num, f.den);
+        return this.sum(inverted).minTerm();
+    }
     public Frazione mul(Frazione f) {
         return new Frazione((this.num * f.num), (this.den * f.den)).minTerm();
     }
-    public Frazione sub(Frazione f) {
-        Frazione res = new Frazione(1, MyMath.mcm(this.den, f.den));
-        res.num = (this.num * (res.den / this.den)) - (f.num * (res.den / f.den));
-        res = res.minTerm();
-        return res;
+    public Frazione div(Frazione f) {
+        return this.mul(f.reciprocal()).minTerm();
     }
     public Frazione reciprocal() {
         if (num == 0) {
-            System.out.println("Warning: il denominatore richiesto e' 0, ho assegnato invece 1");
-            return new Frazione(den, 1).minTerm();
+            System.out.println("Warning: il denominatore assegnato al reciproco e' 0");
+            return new Frazione(den, num).minTerm();
         } else {
             return new Frazione(den, num).minTerm();
         }
-    }
-    public Frazione div(Frazione f) {
-        return (this.mul(f.reciprocal())).minTerm();
     }
     public int compareTo(Frazione f) {
         if (this.equals(f)) {return 0;}
@@ -76,7 +75,7 @@ public class Frazione {
     }
 	public static Frazione mul(Frazione[] fs) {
 		if (fs.length == 0) { return null; }
-		if (fs.length == 1) { return fs[1]; }
+		if (fs.length == 1) { return fs[0]; }
 		Frazione res = new Frazione(1, 1);
 		for (Frazione x : fs) {
 			res = res.mul(x);
@@ -85,7 +84,7 @@ public class Frazione {
 	}
 	public static Frazione sum(Frazione[] fs) {
 		if (fs.length == 0) { return null; }
-		if (fs.length == 1) { return fs[1]; }
+		if (fs.length == 1) { return fs[0]; }
 		Frazione res = new Frazione(0, 1);
 		for (Frazione x : fs) {
 			res = res.sum(x);
@@ -94,7 +93,7 @@ public class Frazione {
 	}
     public static Frazione sub(Frazione[] fs) {
         if (fs.length == 0) { return null; }
-        if (fs.length == 1) { return fs[1]; }
+        if (fs.length == 1) { return fs[0]; }
         Frazione res = new Frazione(0, 1);
         for (Frazione x : fs) {
             res = res.sub(x);
@@ -103,7 +102,7 @@ public class Frazione {
     }
     public static Frazione div(Frazione[] fs) {
         if (fs.length == 0) { return null; }
-        if (fs.length == 1) { return fs[1]; }
+        if (fs.length == 1) { return fs[0]; }
         Frazione res = new Frazione(1, 1);
         for (Frazione x : fs) {
             res = res.div(x);
@@ -127,14 +126,6 @@ public class Frazione {
 		}
 		return result;
 	}
-	public static Frazione[] mul(Frazione[] setA, Frazione[] setB) {
-		if (size(setA) != size(setB)) return null;
-		Frazione[] result = new Frazione[size(setB)];
-		for (int k=0; k<result.length; k++){
-		 result[k] = setA[k].mul(setB[k]);
-		}
-		return result;
-	}
     public static Frazione[] sub(Frazione[] setA, Frazione[] setB) {
         if (size(setA)!= size(setB)) return null;
         Frazione[] result = new Frazione[size(setB)];
@@ -143,6 +134,14 @@ public class Frazione {
         }
         return result;
     }
+	public static Frazione[] mul(Frazione[] setA, Frazione[] setB) {
+		if (size(setA) != size(setB)) return null;
+		Frazione[] result = new Frazione[size(setB)];
+		for (int k=0; k<result.length; k++){
+		 result[k] = setA[k].mul(setB[k]);
+		}
+		return result;
+	}
     public static Frazione[] div(Frazione[] setA, Frazione[] setB) {
         if (size(setA)!= size(setB)) return null;
         Frazione[] result = new Frazione[size(setB)];

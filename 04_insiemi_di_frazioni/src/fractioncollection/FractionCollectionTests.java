@@ -77,32 +77,99 @@ public class FractionCollectionTests {
 		
 		//testSum
 		// fail("Do it yourself");
-//		FractionCollection c1 = new FractionCollection();
-//		c1.put(new Frazione(1, 1));
-//		c1.put(new Frazione(1, 2));
-//		c1.put(new Frazione(1, 3));
-//		c1.put(new Frazione(1, 4));
-//		c1.put(new Frazione(1, 5));
-//		
-//		FractionCollection c2 = new FractionCollection();
-//		c2.put(new Frazione(1, 1));
-//		c2.put(new Frazione(1, 2));
-//		c2.put(new Frazione(1, 3));
-//		c2.put(new Frazione(1, 4));
-//		c2.put(new Frazione(1, 5));
-//
-//		FractionCollection res = c1.sum(c2);
+		FractionCollection c1 = new FractionCollection();
+		c1.put(new Frazione(1, 1));
+		c1.put(new Frazione(1, 2));
+		c1.put(new Frazione(1, 3));
+		c1.put(new Frazione(1, 4));
+		c1.put(new Frazione(1, 5));
+		
+		FractionCollection c2 = new FractionCollection();
+		c2.put(new Frazione(1, 1));
+		c2.put(new Frazione(1, 2));
+		c2.put(new Frazione(1, 3));
+		c2.put(new Frazione(1, 4));
+		c2.put(new Frazione(1, 5));
+
+		FractionCollection res = c1.sum(c2);
 		
 		// assert
-//		assert(5==res.size());
-//		assert(new Frazione(2).equals(res.get(0))==true);
-//		assert(new Frazione(1).equals(res.get(1))==true);
-//		assert(new Frazione(2, 3).equals(res.get(2))==true);
-//		assert(new Frazione(1, 2).equals(res.get(3))==true);
-//		assert(new Frazione(2, 5).equals(res.get(4))==true);
+		assert(5==res.size());
+		assert(new Frazione(2).equals(res.get(0))==true);
+		assert(new Frazione(1).equals(res.get(1))==true);
+		assert(new Frazione(2, 3).equals(res.get(2))==true);
+		assert(new Frazione(1, 2).equals(res.get(3))==true);
+		assert(new Frazione(2, 5).equals(res.get(4))==true);
 	
+		//testSub
+		FractionCollection s1 = new FractionCollection();
+		s1.put(new Frazione(1, 1));
+		s1.put(new Frazione(1, 2));
+		s1.put(new Frazione(5, 3));
+		s1.put(new Frazione(1, 4));
+		s1.put(new Frazione(3, 1));
+		
+		FractionCollection s2 = new FractionCollection();
+		s2.put(new Frazione(1, 1));
+		s2.put(new Frazione(2, 2));
+		s2.put(new Frazione(1, 3));
+		s2.put(new Frazione(1, 4));
+		s2.put(new Frazione(1, 8));
+
+		res = s1.sub(s2);
+		
+		// assert
+		assert(5==res.size());
+		assert(new Frazione(0).equals(res.get(0))==true);
+		assert(new Frazione(-1, 2).equals(res.get(1))==true);
+		assert(new Frazione(4, 3).equals(res.get(2))==true);
+		assert(new Frazione(0, 2).equals(res.get(3))==true);
+		assert(new Frazione(23, 8).equals(res.get(4))==true);
+
 		//testMul
-		//("Do it yourself");
+		FractionCollection m1 = new FractionCollection();
+		m1.put(new Frazione(1, 1));
+		m1.put(new Frazione(1, 2));
+		m1.put(new Frazione(2, 3));
+		m1.put(new Frazione(1, 5));
+		m1.put(new Frazione(0));
+		
+		FractionCollection m2 = new FractionCollection();
+		m2.put(new Frazione(1, 1));
+		m2.put(new Frazione(1, 2));
+		m2.put(new Frazione(1, 3));
+		m2.put(new Frazione(3, 4));
+		m2.put(new Frazione(1, 5));
+
+		res = m1.mul(m2);
+		
+		// assert
+		assert(5==res.size());
+		assert(new Frazione(1).equals(res.get(0))==true);
+		assert(new Frazione(1, 4).equals(res.get(1))==true);
+		assert(new Frazione(2, 9).equals(res.get(2))==true);
+		assert(new Frazione(3, 20).equals(res.get(3))==true);
+		assert(new Frazione(0, 4).equals(res.get(4))==true);
+
+		//testDiv
+		FractionCollection d1 = new FractionCollection();
+		d1.put(new Frazione(1, 1));
+		d1.put(new Frazione(0));
+		d1.put(new Frazione(-4, 3));
+		
+		FractionCollection d2 = new FractionCollection();
+		d2.put(new Frazione(2, 1));
+		d2.put(new Frazione(26, 5));
+		d2.put(new Frazione(4, 3));
+
+		res = d1.div(d2);
+		
+		// assert
+		assert(3==res.size());
+		System.out.println(res.toString());
+		assert(new Frazione(1, 2).equals(res.get(0))==true);
+		assert(new Frazione(0).equals(res.get(1))==true);
+		assert(new Frazione(-1).equals(res.get(2))==true);
 	}
 
 }

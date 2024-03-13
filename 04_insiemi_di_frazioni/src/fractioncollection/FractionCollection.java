@@ -63,6 +63,7 @@ public class FractionCollection {
 	public FractionCollection sum(FractionCollection collection) {
 		if (this.size != collection.size) return null;
 		FractionCollection result = new FractionCollection(size);
+		result.size = size;
 		for (int k=0; k < result.size; k++){
 			result.innerContainer[k] = this.innerContainer[k].sum(collection.innerContainer[k]);
 		}
@@ -71,6 +72,7 @@ public class FractionCollection {
 	public FractionCollection mul(FractionCollection collection) {
 		if (this.size!= collection.size) return null;
         FractionCollection result = new FractionCollection(size);
+		result.size = size;
         for (int k=0; k < result.size; k++){
             result.innerContainer[k] = this.innerContainer[k].mul(collection.innerContainer[k]);
         }
@@ -79,6 +81,7 @@ public class FractionCollection {
 	public FractionCollection sub(FractionCollection collection) {
 		if (this.size!= collection.size) return null;
         FractionCollection result = new FractionCollection(size);
+		result.size = size;
         for (int k=0; k < result.size; k++){
             result.innerContainer[k] = this.innerContainer[k].sub(collection.innerContainer[k]);
         }
@@ -87,6 +90,7 @@ public class FractionCollection {
 	public FractionCollection div(FractionCollection collection) {
 		if (this.size!= collection.size) return null;
         FractionCollection result = new FractionCollection(size);
+		result.size = size;
         for (int k=0; k < result.size; k++){
             result.innerContainer[k] = this.innerContainer[k].div(collection.innerContainer[k]);
         }

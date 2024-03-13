@@ -13,6 +13,14 @@
             "name": "FractionCollectionTests",
             "request": "launch",
             "mainClass": "fractioncollection.FractionCollectionTests",
+            "projectName": "",
+            "vmArgs": "-enableassertions"
+        },
+        {
+            "type": "java",
+            "name": "FractionCollectionTests",
+            "request": "launch",
+            "mainClass": "fractioncollection.FractionCollectionTests",
             "projectName": "04_insiemi_di_frazioni",
             "vmArgs": "-enableassertions"
         },
