@@ -10,12 +10,19 @@
     "configurations": [
         {
             "type": "java",
+            "name": "FractionCollectionTests",
+            "request": "launch",
+            "mainClass": "fractioncollection.FractionCollectionTests",
+            "projectName": "04_insiemi_di_frazioni",
+            "vmArgs": "-enableassertions"
+        },
+        {
+            "type": "java",
             "name": "MatrixAdvancedInterfaceTest",
             "request": "launch",
             "mainClass": "matrici.MatrixAdvancedInterfaceTest",
             "projectName": "04_matrici",
             "vmArgs": "-enableassertions"
-            
         },
         {
             "type": "java",
