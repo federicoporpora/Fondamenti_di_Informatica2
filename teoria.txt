@@ -1,0 +1,29 @@
+COMPILAZIONE ED ESECUZIONE DA CMD
+compilazione java:
+    javac Esempio1.java       (produce Esempio1.class)
+poi per farlo partire:
+    java Esempio1 (args)
+
+per distribuire i programmi, java utilizza il tipo .jar che è un file compresso ZIP che contiene al suo
+interno tutto il programma (essendo diviso in classi andava trovato un altro modo)
+
+per creare un file .jar come archivio di classi (zip):
+    jar cf nomearchivio.jar classi -> è un elenco di classi da scrivere oppure un'intera da cartella.
+                                      vanno separate tutte da ;
+    ESEMPIO:
+    jar cf nomeCheScelgoIo.jar *.class;pippo/*.class -> andrà a creare nomeCheScelgoIo.jar con le classi
+                                                        .class che ho incluso
+
+per creare un file .jar eseguibile:
+    jar cmf info.txt nomeapp.jar classi -> classi esattamente come prima
+    info.txt è un file che contiene la riga:
+        Main-Class: NomeclasseMain -> seguita da una riga vuota INDISPENSABILE
+
+TIPI PRIMITIVI
+per conversione di tipi primitivi in java si usa il CAST:
+    float f = (float) 3.54;     oppure     float f = 3.54F; -> ques'ultimo non è cast ma direttamente
+                                                               l'input giusto
+
+i caratteri in java ovviamente non seguono più la tabella ASCII che ha pochissimi caratteri,
+ma UTF-8, UTF-16 e UTF-32
+
