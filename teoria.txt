@@ -33,7 +33,7 @@ ma UTF-8, UTF-16 e UTF-32
 
 
 Date
-Per tutte le cose che hanno a che fare con il tempo si importa la libreria java.time.
+Per tutte le cose che hanno a che fare con il tempo si importa la libreria java.time.*
 
 Questa libreria non utilizza il termine 'new', ma ha un costruttore proprio che è '.of'.
 Per esempio si scrive:
@@ -123,3 +123,93 @@ Ci sono anche metodi che possono convertire durate in anni, mesi giorni, ore, mi
 
 ORARI E DATE ASSOLUTE
 guarda diapositive da 27 ppt Date
+
+
+
+FORMATTATORI
+Non in tutte le culture vengono formattati i dati in modo uguale. Java offre dei formattatori a seconda delle varie culture in alcuni database.
+La libreria che rappresenta il concetto di culura locale è java.util.Locale
+Ogni cultura è rappresentata con lingua con 2 minuscole e paese con due maiuscole.
+	it_IT oppure en_GB
+Se non si specifica nulla i formattatori adottano il default della macchina che si può vedere attraverso 'Locale.getDefault'
+
+Esistono due grandi famiglie di formattatori:
+	formattatori NUMERICI (java.text.NumberFormat)
+		formattazione di numeri
+		formattazione di percentuali
+		formattazione di prezzi e valori di valute
+
+		formatter.format(valore) --> il formattatore è dichiarato in NumberFormat
+
+	formattatori per DATE e ORARI (java.time.format.DateTimeFormatter)
+		formattazione di data (in 4 formati: breve, medio, lungo e full)
+		formattazione di orario (in 2 formati: breve e medio)
+		formattazione di una data con orario (4 x 2 formati)
+
+		valore.format(formatter) --> il formattatore è dichiarato in LocalDate
+
+FORMATTATORI NUMERICI
+Nella classe NumberFormat ci sono 3 metodi get che fungono da factory
+	Esempio:
+		double x = 43.12345678, y = 0.7, z = 13456.78;
+		NumberFormat fN = NumberFormat.getNumberInstance();
+		NumberFormat fP = NumberFormat.getPercentInstance();
+		NumberFormat fV = NumberFormat.getCurrencyInstance();
+		
+		fN.setMaximumFractionDigits(2); --> configurazione
+		System.out.println( fN.format(x) ); --> 43,12
+		System.out.println( fN.format(y) ); --> 0,7
+		System.out.println( fN.format(z) ); --> 13.456,78
+		
+		fP.setMaximumFractionDigits(2);
+		System.out.println( fP.format(x) ); --> 43,12%
+		System.out.println( fP.format(y) ); --> 70%
+		System.out.println( fP.format(z) ); --> 123,46%
+
+		System.out.println( fV.format(z) ); --> 1.243,57 € (fino a Java 8 il simbolo dell'euro era prima del valore, quindi occhio a retrocompatibilità)
+
+I formattatori numerici supportano anche il parsing, che converte una stringa numerica in un tipo Number, che può essere utilizzato come double, float o int a piacere.
+Deve ovviamente essere correttamente formattata secondo le regole di una cultura locale.
+Va però saputa usare la gestione degli errori, sennò il programma non compila, quindi c'è da aspettare
+
+FORMATTATORI PER DATE E ORARI
+I metodi factory sono di nuovo gli 'of**(...)'. Invertono il pattern d'uso: dataora.format(formatter).
+Ci sono 4 formati di stile per le date:
+	SHORT: gg/mm/aa
+	MEDIUM: gg siglamese aaaa
+	LONG: gg mese aaaa
+	FULL giorno gg mese aaaa
+	
+	Esempio:
+		DateTimeFormatter formatterShort = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+		DateTimeFormatter formatterMedium = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+		DateTimeFormatter formatterLong = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
+		DateTimeFormatter formatterFull = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
+		LocalDate d = LocalDate.now();
+		System.out.println(d.format(formatterShort)); --> 04/03/20
+		System.out.println(d.format(formatterMedium)); --> 4 mar 2020
+		System.out.println(d.format(formatterLong)); --> 4 marzo 2020
+		System.out.println(d.format(formatterFull)); --> mercoledì 4 marzo 2020
+
+Sennò formattatori personalizzati con il metodo factory 'ofPattern':
+	Esempio:
+		DateTimeFormatter myFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate d = LocalDate.now();
+		System.out.println(d.format(myFormatter)); --> 04/03/2020
+
+Il Locale se non vogliamo quello default viene passato con il metodo 'withLocale(Locale.*)'
+	Esempio:
+		DateTimeFormatter.ofLocalizedDate(…).withLocale(Locale.CANADA)
+
+I formattatori per gli orari sono uguali a quelli per le date ma hanno solo due formati:
+	SHORT: hh:mm
+	MEDIUM: hh:mm:ss
+
+	Esempio:
+		DateTimeFormatter formatterShort = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+		DateTimeFormatter formatterMedium = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+		LocalTime t = LocalTime.now();
+		System.out.println(t.format(formatterShort)); --> 18:37
+		System.out.println(t.format(formatterMedium)); --> 18:37:41
+
+Per formattatori che vogliono sia le date che l'orario si usa il metodo '.ofLocalizedDateTime(dateStyle, timeStyle)'.
