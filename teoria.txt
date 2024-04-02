@@ -27,3 +27,99 @@ per conversione di tipi primitivi in java si usa il CAST:
 i caratteri in java ovviamente non seguono più la tabella ASCII che ha pochissimi caratteri,
 ma UTF-8, UTF-16 e UTF-32
 
+
+
+
+
+
+Date
+Per tutte le cose che hanno a che fare con il tempo si importa la libreria java.time.
+
+Questa libreria non utilizza il termine 'new', ma ha un costruttore proprio che è '.of'.
+Per esempio si scrive:
+    LocalDate natale = LocalDate.of(2020, 12, 25).
+Oppure per mesi e giorni della settimana (ENUM) si scrive:
+    Month mese = Month.of(10) --> OCTOBER
+    DayOfWeek giorno = DayOfWeek.of(2) --> TUESDAY
+Oppure per orari locali:
+    LocalTime mezzogiorno = LocalTime.of(12, 00)
+
+I vari concetti sono:
+    locali:
+        LocalDate
+        LocalTime
+        LocalDateTime
+        Period --> durata relativa
+    assoluti:
+        Instant
+        Duration
+        OffsetDateTime --> data assoluta sulla linea del tempo espressa come data + orario + delta rispetto a Greenwich (UTC)
+        ZonedDateTime --> data assoluta sulla linea del tempo espressa come data + orario + delta rispetto a Greenwich (UTC)
+
+GIORNI E MESI
+I due enumerativi per giorni e mesi:
+    Month
+    DayOfWeek
+Entrambi hanno un getValue che dall'enum restituiscono il numero:
+    Month.OCTOBER.getValue() --> 10
+    DayOfWeek.MONDAY.getValue() --> 1
+Oppure hanno la funzione '.of' che restituisce la costante enumerativa del numero (il contrario di prima):
+    Month.of(10) --> OCTOBER
+    DayOfWeek.of(1) --> MONDAY
+
+DATE E ORARI LOCALI
+    da struttura LocalDate posso ottenere i vari valori con:
+        getDayOfMonth
+        getMonth
+        getYear
+        getDayOfYear
+        getDayOfWeek
+        isLeapYear
+        ...
+    da struttura LocalTime posso utilizzare invece:
+        getHour
+        getMinute
+        getSecond
+        getNano
+Posso aggiungere, sottrarre o modificare alcuni parametri con:
+    per LocalDate:
+        plus*:
+            natale2020.plusYears(4) --> natale2024
+        minus*:
+            allo stesso modo
+        with*:
+            natale2020.withYear(2018) --> natale2018
+    per LocalTime:
+        stessa roba
+
+PERIOD
+Un periodo che non è però di un "luogo temporale specifico".
+Posso dire infatti un periodo di un mese, ma non tutti i mesi hanno la stessa durata, quindi
+fa comodo non sapere di che mese si stia parlando.
+
+Anche in questo caso ci sono il costruttore '.of' e le varie funzioni plus, minus, between, ...
+    Period p1 = Period.ofMonths(2).plusDays(3)
+
+Per unire Period alle varie date locali o assolute, ci sono funzioni come:
+    addTo:
+        LocalDate d1 = (LocalDate)p1.addTo(xmas2017); --> OCCHIO AL CAST
+    substractFrom:
+        stessa roba
+
+INSTANT
+Praticamente inutile, ha il suo costruttore e può essere utile perché disconnesso da calendari specifici
+per cultura.
+
+Esempio per istante attuale:
+    Instant adesso = Instant.now();
+
+DURATION
+La durata di tempo tra due istanti
+    Duration d = Duration.between(i1,i2)
+
+Come sempre c'è il '.of' e i vari plus, minus, with e between.
+
+Ci sono anche metodi che possono convertire durate in anni, mesi giorni, ore, minuti, ... --> TRONCAMENTO
+
+ORARI E DATE ASSOLUTE
+guarda diapositive da 27 ppt Date
