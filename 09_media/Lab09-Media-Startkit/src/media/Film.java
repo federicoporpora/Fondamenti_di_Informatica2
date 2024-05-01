@@ -2,7 +2,10 @@ package media;
 
 import java.util.Arrays;
 
-public class Film extends Media {
+import media.filters.HasDuration;
+import media.filters.HasGenre;
+
+public class Film extends Media implements HasGenre, HasDuration {
 
 	private String[] actors = null;
 	private String director = null;

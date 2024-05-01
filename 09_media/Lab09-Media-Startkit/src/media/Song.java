@@ -1,6 +1,9 @@
 package media;
 
-public class Song extends Media {
+import media.filters.HasDuration;
+import media.filters.HasGenre;
+
+public class Song extends Media implements HasDuration, HasGenre{
 
 	private int duration = -1;
 	private String genre = null;

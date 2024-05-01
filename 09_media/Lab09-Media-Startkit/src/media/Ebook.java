@@ -2,7 +2,9 @@ package media;
 
 import java.util.Arrays;
 
-public class Ebook extends Media {
+import media.filters.HasGenre;
+
+public class Ebook extends Media implements HasGenre {
 
 	private String[] authors = null;
 	private String genre = null;

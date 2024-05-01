@@ -21,10 +21,11 @@ public class MediaController {
 	}
 	
 	public boolean add(Media m) {
-		if (allMedias.indexOf(m) != -1) {
-			allMedias.add(m);
-		}
-		return false;
+		if (allMedias.indexOf(m) >= 0)
+			return false;
+
+		allMedias.add(m);
+		return true;
 	}
 	
 	public boolean remove(Media media) {

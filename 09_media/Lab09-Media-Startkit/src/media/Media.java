@@ -1,6 +1,8 @@
 package media;
 
-public abstract class Media {
+import media.filters.HasType;
+
+public abstract class Media implements HasType {
 
 	String title = null;
 	int year = -1;
