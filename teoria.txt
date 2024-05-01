@@ -213,3 +213,96 @@ I formattatori per gli orari sono uguali a quelli per le date ma hanno solo due 
 		System.out.println(t.format(formatterMedium)); --> 18:37:41
 
 Per formattatori che vogliono sia le date che l'orario si usa il metodo '.ofLocalizedDateTime(dateStyle, timeStyle)'.
+
+
+
+
+
+RECORD
+
+record ===> contenitori di valori.
+
+Si inizializzano così:
+record Puppa(int numero, String nome) {}
+
+utili perché il compilatore crea in automatico il costruttore e i get. Per esempio posso usare nel caso precedente getNumero() o getNome() senza scriverlo io manualmente.
+
+Posso anche aggiungere dei metodi personalizzati ma ATTENZIONE: i valori dei record sono IMMUTABILI, quindi non posso creare un metodo così:
+record Puppa(int numero, String nome) {
+	public void setNumero(int nuovoNumero) {
+		this.numero = nuovoNumero;
+	}
+}
+
+Il compilatore darebbe errore, non posso cambiare il valore dei dati, l'unica cosa che posso fare è creare un nuovo record che restituisco, ma è un record diverso
+
+record Puppa(int numero, String nome) {
+	public Puppa setNumero(int nuovoNumero) {
+		return new Puppa(nuovoNumero, nome);
+	}
+}
+
+Utile però per avere vari metodi get che ritornano magari valori modificati dei dati presenti all'interno.
+
+
+
+
+
+CLASSI ASTRATTE
+
+classi che possono avere dei metodi astratti che non vengono inizialmente implementati o vengono implementati con un metodo di default poiché
+ogni SOTTOCLASSE avrà il suo specifico.
+
+le classi astratte si creano così:
+
+public class abstract Puppa {
+	private int numero = 0;
+	private String nome = null;
+
+	public Puppa(int numero, String nome) {
+		this.numero = numero;
+		this.nome = nome;
+	}
+
+	public void metodo1() {
+		bla;
+		bla;
+	}
+
+	public void metodoAstratto();
+
+	public void metodoAstratto2() {
+		bla;
+		bla;
+		implementazione default, poi in ogni sottoclasse ci sarà un metodo chiamato nello stesso modo con @Override prima e il compilatore nel caso in cui esista;
+		utilizzerà quello;
+	}
+}
+
+Ogni sottoclasse dorvà essere creata specificando che estende la classe astratta, per esempio:
+
+public class DaiCheAndiamo extends Puppa{
+    private String sesso;
+
+    public DaiCheAndiamo(int numero, String nome, String sesso) {
+        super(numero, nome);
+        this.sesso = sesso;
+    }
+
+    @Override
+    public void metodoAstratto() {
+        bla; bla;
+    }
+
+    @Override
+    public void metodoAstratto2() {
+        bla; bla;
+    }
+}
+
+La sottoclasse DEVE avere un costruttore che inizializza tutti i dati, per inizializzare i dati della classe astratta al di sopra si utilizza la funzione super()
+con i dati all'interno che indica che richiama il costruttore della classe astratta e inserisce i dati all'interno di essa.
+
+
+
+

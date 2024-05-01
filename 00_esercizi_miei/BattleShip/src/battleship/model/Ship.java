@@ -41,7 +41,7 @@ public class Ship {
 		return shiptype;
 	}
 	public ShotResult decreaseIntegrity() {
-		integrity--;
+		if (integrity != 0) integrity--;
 		if (integrity == 0) return ShotResult.AFFONDATO;
 		return ShotResult.COLPITO;
 	}
