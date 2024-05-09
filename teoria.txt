@@ -37,7 +37,7 @@ Per tutte le cose che hanno a che fare con il tempo si importa la libreria java.
 
 Questa libreria non utilizza il termine 'new', ma ha un costruttore proprio che è '.of'.
 Per esempio si scrive:
-    LocalDate natale = LocalDate.of(2020, 12, 25).
+    LocalDate natale = LocalDate.of(2020, 12, 25);
 Oppure per mesi e giorni della settimana (ENUM) si scrive:
     Month mese = Month.of(10) --> OCTOBER
     DayOfWeek giorno = DayOfWeek.of(2) --> TUESDAY

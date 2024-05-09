@@ -29,7 +29,7 @@ public class AppointmentCollection {
 				}
 				res.innerContainer[size] = appointment;
 				size++;
-				innerContainer = res.innerContainer;
+				this.innerContainer = res.innerContainer;
 			}
 		}
 		public void remove(int index) {

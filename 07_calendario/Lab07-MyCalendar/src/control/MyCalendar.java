@@ -12,7 +12,6 @@ public class MyCalendar {
 	private AppointmentCollection allAppointments;
 
 	public MyCalendar() {
-		super();
 		this.allAppointments = new AppointmentCollection();
 	}
 	public void add(Appointment app) {
@@ -69,7 +68,7 @@ public class MyCalendar {
 		return res;
 	}
 	private boolean isOverlapped(LocalDateTime start, LocalDateTime end, LocalDateTime refStart, LocalDateTime refEnd) {
-		if ((start.isBefore(refStart) && end.isBefore(refStart)) || (start.isAfter(refEnd) && end.isAfter(refEnd))) return false;
+		if (end.isBefore(refStart) || start.isAfter(refEnd)) return false;
 		return true;
 	}
 }
