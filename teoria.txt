@@ -306,3 +306,127 @@ con i dati all'interno che indica che richiama il costruttore della classe astra
 
 
 
+INTERFACCE
+
+E' una classe astratta posta all'estremo, le sottoclassi non stanno più sotto, l'interfaccia è solo una definizione che ha all'interno dei metodi pubblici
+e costanti. Non può neanche avere al suo interno delle variabili, la cosa migliore che può fare è andare a definire dei metodi che ritornano delle
+variabili e poi ogni sottoclasse andrà ad implementare a modo suo il codice per restituire la variabile desiderata. Per esempio se ho un'interfaccia
+chiamata 'rettangolo' con i metodi 'base()' ed 'altezza()' ed una classe 'quadrato' che vuole implementare l'interfaccia 'rettangolo' (perché
+effettivamente è un rettangolo particolare) dovrà andare a specificare nel suo codice i metodi base e altezza andando a prendere i dati dalla variabile
+'lato', non per forza da base e altezza. Tutto questo per spiegare che posso avere delle "variabili" anche dalle interfacce.
+
+Una classe se vuole implementare in sé l'interfaccia, deve andare ad implementare ogni metodo descritto dall'interfaccia.
+
+Un'interfaccia si dichiara così:
+	public interface Rettangolo;
+
+Una classe, se vuole implementare un'interfaccia, scrive:
+	(public) class Quadrato implements Rettangolo;
+	    |
+	    -> non necessariamente pubblica
+
+Non ho ancora scritto gli APPUNTI DELLE FACTORY DELLE INTERFACCE
+
+In java ci sono anche delle interfacce di default che servono al compilatore per capire se può eseguire determinate azioni.
+Per esempio esiste l'interfaccia tipizzata 'Comparable<T>' che indica se un oggetto è comparabile con un altro oggetto dello stesso tipo e implica la
+creazione del metodo 'public int compareTo(T that);'. Questo metodo serve al compilatore per eseguire moltissime azioni, ma le più importanti sono
+	ORDINEMENTO
+	- l'ordinamento di un array attraverso il metodo statico 'Arrays.sort'
+	- l'ordinamento di una lista attraverso il metodo 'Collections.sort'
+	RICERCA
+	- ricerca binaria all'interno di un array attraverso il metodo statico 'Arrays.binarySearch'
+	- ricerca binaria all'interno di una lista attraverso il metodo 'Collections.binarySearch'
+
+In particolare per la comparazione all'interno del metodo statico .sort, il compilatore va a richiamare il metodo compareTo che ritorna un intero ed indica
+se i due dati comparati sono uno maggiore dell'altro.
+Ma questo semplice metodo non cattura ogni casistica, ci sta che a volte io voglia confrontare un campo specifico e altre volte un altro.
+Per esempio se voglio confrontare più persone posso confrontarle per età, nome, cognome, ecc... ed un comparatore singolo non è abbastanza.
+
+Per questo si introduce il concetto di COMPARATORE.
+A differenza dell'interfaccia comparable, è un ente terzo che compara due oggetti, non è un metodo all'interno della classe.
+In java si dichiara:
+	Comparator<T>
+e dichiara al suo interno un singolo metodo:
+	public int compare(T a, T b);
+che restituisce 1 se a > b, -1 se a < b e 0 se a == b.
+
+Per esempio se voglio creare un comparatore per Counter, dovrò scrivere
+	public class MyComparatore implements Comparator<Counter> {
+		public int compare(Counter x, Counter y)
+			if (x.val < y.val) return -1;
+			if (x.val > y.val) return +1;
+			/* else */ return 0;
+		}
+	}
+
+Se volessi invece creare metodi diversi per comparare degli oggetti, mi basta creare più classi comparatore con all'interno il proprio metodo compare
+e in Arrays.sort passo oltre all'array anche il comparatore che voglio utilizzare, per esempio:
+
+	Arrays.sort(persone, new CognomeComparator() );
+	System.out.println(String.join(", ", persone));
+	Arrays.sort(persone, new NomeComparator() );
+	System.out.println(String.join(", ", persone));
+	Arrays.sort(persone, new EtaComparator() );
+	System.out.println(String.join(", ", persone));
+
+Se il comparatore viene usato una sola volta, posso andare a creare una classe anonima, cioè direttamente all'interno dell'Arrays.sort scrivo il codice
+e l'implementazione della classe del comparatore con il metodo compare all'interno. Per esempio:
+
+	Arrays.sort(persone, new Comparator<Persona>() {
+		public int compare(Persona p1, Persona p2){
+		return p1.getCognome().compareTo(p2.getCognome());
+		}
+	);
+
+
+Infine ci sono le interfacce MARKER, cioè interfacce senza all'interno alcun tipo di codice, ma che servono per comunque definire un tipo ad ogni classe,
+per andare ad aiutare il compilatore a scovare eventuali errori di incongruenza di tipo.
+
+Posso quindi andare a scrivere in seguito dei metodi che accettano solo delle classi di un certo tipo, che rappresentano tutte le classi che implementano
+questa interfaccia marker. Per esempio posso andare a creare un'interfaccia chiamata "StampabiliInUnaSolaRiga" che indicano tutte le classi che nel mio
+ipotetico programma possono essere stampate in una sola riga e quindi posso andare a creare un metodo statico chiamato "stampaRigaSingola" che accetta solo
+istanze dell'interfaccia "StampabiliInUnaSolaRiga".
+
+	public static void stampaRigaSingola(StampabiliInUnaSolaRiga stringa) {
+		System.out.println(stringa);
+	}
+
+e questo fa si che ogni classe che non implementa questa classe marker che prova ad utilizzare questo metodo vada a creare errore ed il programma non
+compila.
+
+MANCANO GLI APPUNTI DELLE INTERFACCE UNITE AGLI ENUMERATIVI
+
+
+
+
+GENERICITA' E CONTROLLO DI TIPO PER ARRAY
+
+Chiamare ogni array generico con Object, può andare a creare moltissimi problemi, poiché posso andare a metterci dentro quello che voglio, anche di tipi
+diversi tra di loro. E' sempre meglio avere degli array di un tipo specifico, ma poi come faccio a fare delle funzioni che possono agire sugli array in
+generale? Per esempio la funzione 'idem' che analizza due array di un tipo qualsiasi e controllano che siano uguali. Se li chiamo Object in input della
+funzione potrei mandarci degli array con tipi diversi, con all'interno cose a caso, insomma non si fa.
+Per risolvere questo problema c'è l'utilizzo del polimorfismo orizzontale:
+
+per le varie funzioni si scrive:
+	public static <T> boolean idem(T[] a, T[] b);
+
+invece per la chiamata della funzione si scrive:
+	<NomeDelTipoDiCuiSonoFattiGliArray>idem(array1, array2);
+
+Insomma è meglio del resto
+
+
+
+NULL SAFETY
+
+Semplicemente è brutto e non si usa il null perché porta a null pointer exeption con errori introvabili, difficili da debuggare e che si propagano velocemente in tutto
+il codice rendendolo difficilmente mantenibile
+
+Un caso da cui prendere spunto come ottima alternativa al null è il NaN che anche se non è un numero, almeno restituisce qualcosa e segue tutte le regole matematiche
+del caso successivamente nel codice. NaN fa parte della classe libreria Float e Double, e si dichiara Float.NaN o Double.NaN.
+
+Non esiste però una cosa simile per gli oggetti (nei numeri funziona solo perché non sono oggetti).
+
+Java quindi agisce a livello di libreria andando a creare il concetto di tipo "Optional<T>". Questo tipo esprime l'idea che un oggetto possa mancare, infatti è opzionale.
+Viene quindi creato un tipo che in ogni caso restituisce qualcosa. Quindi l'oggetto di tipo T che ci interessa viene restituito incapsulato all'interno
+dell'oggetto-wrapper ausiliario 'optional'. Questo esiste sempre, non è mai null.
