@@ -430,3 +430,84 @@ Non esiste però una cosa simile per gli oggetti (nei numeri funziona solo perch
 Java quindi agisce a livello di libreria andando a creare il concetto di tipo "Optional<T>". Questo tipo esprime l'idea che un oggetto possa mancare, infatti è opzionale.
 Viene quindi creato un tipo che in ogni caso restituisce qualcosa. Quindi l'oggetto di tipo T che ci interessa viene restituito incapsulato all'interno
 dell'oggetto-wrapper ausiliario 'optional'. Questo esiste sempre, non è mai null.
+
+
+TODO INPUT OUTPUT GENERALITA'
+
+
+INPUT OUTPUT FILE BINARIO
+Si usa il packacge 'java.io' per gestire l'input e output da qualsiasi sorgente e verso qualsiasi destinazione. Lo stream di dati ha un approcio a cipolla,
+ci sono stream (detti di sorgente) (simili a quelli studiati in C) che vanno a collegarsi al file, connessione di rete o quello che sia e lo va a leggere e
+poi ci sono stream (detti incapsulanti) che hanno come argomento gli stream di sorgente e vanno a leggere i dati veri e propri aggiungendo funzionalità a
+quelli precedenti.
+
+STREAM DI SORGENTE:
+La classe base 'InputStream' definisce in generale il canale di input operante a byte. Ha un costruttore che apre lo stream, il  metodo 'read' che legge
+uno o più dati ed il metodo 'close' che chiuse lo stream. E' una classe astratta, quindi il metodo 'read' deve essere definito in maniera precisa dalla
+sottoclasse.
+
+La classe base 'OutputStream' definisce invece il canale di output operante a byte. Ha un costruttore che apre lo stream, il metodo 'write' che scrive uno
+o più byte, il metodo 'flush' che svuota il buffer d'uscita ed il metodo 'close' che chiude lo stream. Anche questa è una classe astratta, quindi 'write'
+va scritto dalla sottoclasse.
+
+Per letture e scritture su file:
+'FileInputStream' è la classe concreta che rappresenta il concetto di sorgente di byte agganciata a un file.
+	il costruttore apre il file in lettura
+		– argomento: o il nome del file da aprire o un oggetto File preventivamente costruito
+		– lancia eccezione a controllo obbligatorio
+	il metodo read legge un byte
+		– restituisce il byte letto come intero fra 0 e 255
+		– se lo stream è finito, restituisce -1
+		– se non ci sono byte, ma lo stream non è finito, rimane in attesa dell'arrivo di un byte
+		– lancia eccezione a controllo obbligatorio
+
+'FileOutputStream' è la classe concreta che rappresenta il concetto di dispositivo di uscita agganciato a un file
+	il costruttore apre il file in scrittura
+		– primo argomento: il nome del file da aprire, o un oggetto File preventivamente costruito
+		– secondo argomento (opzionale): un boolean per chiedere l'apertura in modalità append
+		– lancia eccezione a controllo obbligatorio
+	il metodo write scrive uno o più byte
+		– scrive l'intero passatogli (un valore fra 0 e 255)
+		– non restituisce nulla
+		– lancia eccezione a controllo obbligatorio
+
+STREAM INCAPSULANTI:
+Per input:
+	DataInputStream (implementa DataInput)
+		– definisce metodi per leggere valori primitivi:
+			readInteger, readFloat, ecc.
+		– lanciano EOFException se lo stream termina in modo inatteso
+	ObjectInputStream (implementa ObjectInput e DataInput)
+		– definisce il metodo readObject per leggere oggetti serializzati
+		– ma contiene anche gli stessi readInteger, readFloat, ecc. di cui sopra per comodità
+		– lanciano EOFException se lo stream termina in modo inatteso
+Per output:
+	DataOutputStream (implementa DataOutput)
+		– definisce metodi per scrivere valori primitivi: writeInteger, writeFloat, ecc.
+		– lanciano EOFException se lo stream termina in modo inatteso
+	ObjectOutputStream (implementa ObjectOutput e DataOutput)
+		– definisce il metodo writeObject per scrivere oggetti serializzati
+		– ma contiene anche gli stessi writeInteger, writeFloat, ecc. di cui sopra per comodità
+		– lanciano EOFException se lo stream termina in modo inatteso
+	ci sarebbe anche PrintStream ma è obsoleto
+
+E' utile in file binari andare a scrivere o leggere anche interi oggetti. Per farlo si dice SERIALIZZARE (salvare l'oggetto in un file esterno secondo
+un'opportuna rappresentazione binaria) per poi DESERIALIZZARLO (il contrario).
+Gli oggetti che però vogliono avere l'abilità di essere letti e scritti,
+devono essere esplicitamente marcati con l'interfaccia 'Serializable' (creato per una questione di sicurezza, una volta che un oggetto esce dal JRE non è
+più sicuro, quindi vogliamo che escano solo determinati oggetti).
+Inoltre implementare l'interfaccia Serializable implica anche la scrittura di un numero
+di versione della classe, che è un long chiamato 'SerialVersionUID' che rappresenta la versione della classe scritta, poiché ci sta che la classe nel tempo
+sia stata aggiornata e abbia cambiato struttura, quindi leggere dei dati di una versione passata non ha senso se poi li devo scrivere in una classe nuova,
+si possono causare errori.
+
+
+
+
+
+
+
+
+
+
+
