@@ -325,7 +325,7 @@ Una classe, se vuole implementare un'interfaccia, scrive:
 	    |
 	    -> non necessariamente pubblica
 
-Non ho ancora scritto gli APPUNTI DELLE FACTORY DELLE INTERFACCE
+TODO APPUNTI DELLE FACTORY DELLE INTERFACCE
 
 In java ci sono anche delle interfacce di default che servono al compilatore per capire se può eseguire determinate azioni.
 Per esempio esiste l'interfaccia tipizzata 'Comparable<T>' che indica se un oggetto è comparabile con un altro oggetto dello stesso tipo e implica la
@@ -394,7 +394,7 @@ istanze dell'interfaccia "StampabiliInUnaSolaRiga".
 e questo fa si che ogni classe che non implementa questa classe marker che prova ad utilizzare questo metodo vada a creare errore ed il programma non
 compila.
 
-MANCANO GLI APPUNTI DELLE INTERFACCE UNITE AGLI ENUMERATIVI
+TODO APPUNTI DELLE INTERFACCE UNITE AGLI ENUMERATIVI
 
 
 
@@ -431,7 +431,6 @@ Java quindi agisce a livello di libreria andando a creare il concetto di tipo "O
 Viene quindi creato un tipo che in ogni caso restituisce qualcosa. Quindi l'oggetto di tipo T che ci interessa viene restituito incapsulato all'interno
 dell'oggetto-wrapper ausiliario 'optional'. Questo esiste sempre, non è mai null.
 
-
 I vari metodi dell'optional sono:
 	– per incapsulare un valore: Optional.of
 		(c'è anche il metodo ofNullable che scrive da solo empty se l'elemento è null)
@@ -446,74 +445,95 @@ Optional incapsula valori solo di classi o interfacce, quindi non possono essere
 per i tre tipi primitivi più usati. I metodi per prendere il valore all'interno sono 'getAsInt', 'getAs...'.
 
 
-TODO INPUT OUTPUT GENERALITA'
+
+STRUTTURE DATI
+I principali e presenti più o meno in tutti i linguaggi sono le collezioni, le liste, i set, le mappe e gli iteratori. Tutte possono essere IMMUTABILI o MODIFICABILI.
+Ovviamente NON possono avere come tipo un tipo primitivo, ma solo oggetti. In java le strutture dati nel front-end sono delle interfacce, poi si vanno a specificare
+in varie classi che implementano in maniera vera e propria il codice.
+
+Interfaccia Iterable<T>:
+	introduce l'idea di qualcosa di iterabile, su cui posso ciclare con il for each. E' la struttura esterna di ogni struttura dati.
+
+Interfaccia Collection<T>:
+	l'interfaccia è ancora molto generale, aggiunge solo alcuni metodi che andranno in tutte le classi e strutture dati sottostanti. I metodi sono:
+		- add
+		- remove
+		- contains
+		- isEmpty
+		- size
+		- toArray
+		- equals
+	sono ancora tutti metodi molto semplici e intuibili.
+
+Interfaccia Set<T>:
+	introduce l'idea di un insieme di elemtni privo di duplicati, quindi mette dei vincoli ai metodi 'add' e 'equals' (due set sono uguali quando tutti gli elementi
+	presenti in uno sono anche presenti in un altro).
+
+Interfaccia SortedSet<T>:
+	gli elementi all'interno devono essere tutti ordinati. Ovviamente per ottenere questo gli elementi all'interno devono essere Comparable<T> oppure devo fornire un
+	Comparator<T>.
+	Inoltre ci sono dei nuovi metodi: 'first' 'last' 'headSet' 'subSet' 'tailSet' (gli ultimi 3 restituiscono i sottoinsiemi ordinati contenenti gli elementi minori,
+	compresi o maggiori di quello/i dato/i).
+
+Interfaccia List<T>:
+	come quella del C, l'add aggiunge un elemento in fondo alla lista e l'equals è vera se gli elementi corrispondono a due a due. Inoltre compare il metodo get
+	dato che si può accedere alla lista anche per posizione (cambiano infatti anche i metodi add e remove).
+
+Interfaccia Queue<T> e Deque<T>:
+	inutili, se le useremo pace
+
+Interfaccia Map<K, V>:
+	non è una collection, ma una struttura bidimensionale, una tabella di elementi che vengono associati ognuno ad una chiave univoca. I metodi nuovi sono:
+		- 'put' che inserisce una nuova coppia (chiave, elemento) nella mappa
+		- 'get' che fa accedere ad un elemento in tabella data la chiave
+		- 'containsKey' verifica che una chiave sia presente nella tabella
+		- 'containsValue' verifica se un elemento è presente
+	poiché la mappa funzioni però dobbiamo fare in modo che la funzione hash produca valori distinti per elementi distinti, quindi se ridefiniamo equals, dobbiamo
+	anche ridefinire hascode in modo coerente (lo fa eclipse).
+	ESEMPIO DI FUNZIONE HASHCODE PER UNA CLASSE CON DUE STRINGHE:
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((email==null) ? 0 : email.hashCode());
+			result = prime * result + (int) (id ^ (id >>> 32));
+			result = prime * result + ((name==null) ? 0 : name.hashCode());
+			return result;
+		}
+	
+	non essendo una collection ci sono anche dei metodi per estrarre i dati sottoforma di collection views:
+		- 'keySet' che restituisce tutta la colonna delle chiavi (sottoforma di set)
+		- 'values' che restituisce tutta la colonna dei valori (sottoforma di collection)
+		- 'entrySet' che restituisce tutte le righe (sottoforma di set di entry.)
+
+Interfaccia SortedMap<K, V>:
+	uguale a SortedSet, mette le chiavi in ordine e devono essere comparable.
 
 
-INPUT OUTPUT FILE BINARIO
-Si usa il packacge 'java.io' per gestire l'input e output da qualsiasi sorgente e verso qualsiasi destinazione. Lo stream di dati ha un approcio a cipolla,
-ci sono stream (detti di sorgente) (simili a quelli studiati in C) che vanno a collegarsi al file, connessione di rete o quello che sia e lo va a leggere e
-poi ci sono stream (detti incapsulanti) che hanno come argomento gli stream di sorgente e vanno a leggere i dati veri e propri aggiungendo funzionalità a
-quelli precedenti.
+Libreria Colletions: ha funzioni statiche per operare sulle collezioni, in particolare 'sort' e 'binarySearch' sono i più usati
 
-STREAM DI SORGENTE:
-La classe base 'InputStream' definisce in generale il canale di input operante a byte. Ha un costruttore che apre lo stream, il  metodo 'read' che legge
-uno o più dati ed il metodo 'close' che chiuse lo stream. E' una classe astratta, quindi il metodo 'read' deve essere definito in maniera precisa dalla
-sottoclasse.
 
-La classe base 'OutputStream' definisce invece il canale di output operante a byte. Ha un costruttore che apre lo stream, il metodo 'write' che scrive uno
-o più byte, il metodo 'flush' che svuota il buffer d'uscita ed il metodo 'close' che chiude lo stream. Anche questa è una classe astratta, quindi 'write'
-va scritto dalla sottoclasse.
 
-Per letture e scritture su file:
-'FileInputStream' è la classe concreta che rappresenta il concetto di sorgente di byte agganciata a un file.
-	il costruttore apre il file in lettura
-		– argomento: o il nome del file da aprire o un oggetto File preventivamente costruito
-		– lancia eccezione a controllo obbligatorio
-	il metodo read legge un byte
-		– restituisce il byte letto come intero fra 0 e 255
-		– se lo stream è finito, restituisce -1
-		– se non ci sono byte, ma lo stream non è finito, rimane in attesa dell'arrivo di un byte
-		– lancia eccezione a controllo obbligatorio
 
-'FileOutputStream' è la classe concreta che rappresenta il concetto di dispositivo di uscita agganciato a un file
-	il costruttore apre il file in scrittura
-		– primo argomento: il nome del file da aprire, o un oggetto File preventivamente costruito
-		– secondo argomento (opzionale): un boolean per chiedere l'apertura in modalità append
-		– lancia eccezione a controllo obbligatorio
-	il metodo write scrive uno o più byte
-		– scrive l'intero passatogli (un valore fra 0 e 255)
-		– non restituisce nulla
-		– lancia eccezione a controllo obbligatorio
+ECCEZIONI
 
-STREAM INCAPSULANTI:
-Per input:
-	DataInputStream (implementa DataInput)
-		– definisce metodi per leggere valori primitivi:
-			readInteger, readFloat, ecc.
-		– lanciano EOFException se lo stream termina in modo inatteso
-	ObjectInputStream (implementa ObjectInput e DataInput)
-		– definisce il metodo readObject per leggere oggetti serializzati
-		– ma contiene anche gli stessi readInteger, readFloat, ecc. di cui sopra per comodità
-		– lanciano EOFException se lo stream termina in modo inatteso
-Per output:
-	DataOutputStream (implementa DataOutput)
-		– definisce metodi per scrivere valori primitivi: writeInteger, writeFloat, ecc.
-		– lanciano EOFException se lo stream termina in modo inatteso
-	ObjectOutputStream (implementa ObjectOutput e DataOutput)
-		– definisce il metodo writeObject per scrivere oggetti serializzati
-		– ma contiene anche gli stessi writeInteger, writeFloat, ecc. di cui sopra per comodità
-		– lanciano EOFException se lo stream termina in modo inatteso
-	ci sarebbe anche PrintStream ma è obsoleto
+si usa try {} catch (eccezione e) {}. possono esserci più catch
 
-E' utile in file binari andare a scrivere o leggere anche interi oggetti. Per farlo si dice SERIALIZZARE (salvare l'oggetto in un file esterno secondo
-un'opportuna rappresentazione binaria) per poi DESERIALIZZARLO (il contrario).
-Gli oggetti che però vogliono avere l'abilità di essere letti e scritti,
-devono essere esplicitamente marcati con l'interfaccia 'Serializable' (creato per una questione di sicurezza, una volta che un oggetto esce dal JRE non è
-più sicuro, quindi vogliamo che escano solo determinati oggetti).
-Inoltre implementare l'interfaccia Serializable implica anche la scrittura di un numero
-di versione della classe, che è un long chiamato 'SerialVersionUID' che rappresenta la versione della classe scritta, poiché ci sta che la classe nel tempo
-sia stata aggiornata e abbia cambiato struttura, quindi leggere dei dati di una versione passata non ha senso se poi li devo scrivere in una classe nuova,
-si possono causare errori.
+	− 'IllegalArgumentException' per argomenti «non validi»
+	− 'NullPointerException' per argomenti null
+	− 'IndexOutOfBoundsException' per indici fuori range
+	− 'NoSuchElementException' per elementi inesistenti
+	− 'UnsupportedOperationException' per operazioni non supportate (es. metodi non ancora implementati)
+	− 'ArithmeticException' per divisioni per zero e casi analoghi
+	− 'ClassCastException' per tentativi di cast incoerenti
+
+per nuove eccezioni creo una classe che estende 'IllegalArgumentException' o l'errore che voglio andare a modificare e creo i due costruttori, uno senza nulla per il messaggio semplice,
+uno con una stringa per l'errore con un messaggio personalizzato (usa super() e super(s))
+
+nel caso in cui non voglia gestire subito un errore, posso andare a rilanciare l'errore alla classe superiore o al prossimo utilizzatore del codice. In questo caso non vado
+a scrivere try e catch, ma all'inizio per esempio del metodo scrivo 'throws Errore' così l'utente esterno sa che il metodo o la classe che sto scrivendo potrebbe andare a creare
+un errore, ma io non lo risolvo subito.
+
+Posso poi andare ad accorpare eccezioni fisiche e logiche, per questa roba studia da diapositiva 80. (TODO)
 
 
 
