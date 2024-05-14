@@ -417,7 +417,7 @@ Insomma è meglio del resto
 
 
 
-NULL SAFETY
+NULL SAFETY (OPTIONAL)
 
 Semplicemente è brutto e non si usa il null perché porta a null pointer exeption con errori introvabili, difficili da debuggare e che si propagano velocemente in tutto
 il codice rendendolo difficilmente mantenibile
@@ -430,3 +430,27 @@ Non esiste però una cosa simile per gli oggetti (nei numeri funziona solo perch
 Java quindi agisce a livello di libreria andando a creare il concetto di tipo "Optional<T>". Questo tipo esprime l'idea che un oggetto possa mancare, infatti è opzionale.
 Viene quindi creato un tipo che in ogni caso restituisce qualcosa. Quindi l'oggetto di tipo T che ci interessa viene restituito incapsulato all'interno
 dell'oggetto-wrapper ausiliario 'optional'. Questo esiste sempre, non è mai null.
+
+I vari metodi dell'optional sono:
+	– per incapsulare un valore: Optional.of
+		(c'è anche il metodo ofNullable che scrive da solo empty se l'elemento è null)
+	– per esprimere il "nessun valore": Optional.empty
+	– per accertare la presenza/assenza: isPresent / isEmpty
+	– per estrarre il valore (se presente): get / orElse (scrivi x.orElse(y) e se x non è presente restituisce y senza if vari)
+
+Optional incapsula valori solo di classi o interfacce, quindi non possono essere tipi primitivi come interi o float. Per questo sono state definite tre classi ausiliarie
+	- OptionalInt
+	- OptionalLong
+	- OptionalDouble
+per i tre tipi primitivi più usati. I metodi per prendere il valore all'interno sono 'getAsInt', 'getAs...'.
+
+
+
+
+
+
+
+
+
+
+
