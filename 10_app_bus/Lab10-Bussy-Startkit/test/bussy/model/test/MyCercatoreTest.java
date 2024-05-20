@@ -71,7 +71,7 @@ public class MyCercatoreTest {
 		assertEquals(  3,  percorsi.first().getDurata());
 		//
 		percorsi = cercatore.cercaPercorsi("Porta San Mamolo", "Porta San Mamolo", OptionalInt.of(45));
-		//	System.out.println(percorsi);
+		// System.out.println(percorsi);
 		assertEquals("32", percorsi.first().getLinea().getId());
 		assertEquals( 38,  percorsi.first().getDurata());
 	}
@@ -81,7 +81,7 @@ public class MyCercatoreTest {
 		SortedSet<Percorso> percorsi = cercatore.cercaPercorsi("Stazione Centrale", "Porta San Mamolo", OptionalInt.of(45));
 		assertEquals(   2, percorsi.size());
 		for (Percorso p : percorsi) {
-			System.out.println(p);
+			// System.out.println(p);
 			switch(p.getLinea().getId()) {
 				case "32": assertEquals( 21,  p.getDurata()); break;
 				case "33": assertEquals( 17,  p.getDurata()); break;
@@ -94,7 +94,7 @@ public class MyCercatoreTest {
 		SortedSet<Percorso> percorsi = cercatore.cercaPercorsi("Porta San Mamolo", "Stazione Centrale", OptionalInt.of(45));
 		assertEquals(   3, percorsi.size());
 		for (Percorso p : percorsi) {
-			System.out.println(p);
+			// System.out.println(p);
 			switch(p.getLinea().getId()) {
 				case "32": assertEquals( 17,  p.getDurata()); break;
 				case "33": assertEquals( 21,  p.getDurata()); break;
