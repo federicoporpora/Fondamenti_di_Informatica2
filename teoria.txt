@@ -539,6 +539,28 @@ Posso poi andare ad accorpare eccezioni fisiche e logiche, per questa roba studi
 
 
 
+JAVAFX
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+Come è organizzato:
+	1. Stage (palcoscenico) (la finestra vera e propria, se cambio i pixel, cambia la grandezza dell'applicazione a schermo)
+	2. Scene (scena) (sfondo per i vari pannelli)
+	3. Pane (pannello)
+	4. Altri elementi come Canvas (disegnare direttamente pixel), Image (immagini) o anche altri pannelli
+
+La classe di javafx estende Application. E' sempre da creare il metodo 'start' che deve creare lo Stage.
+Sempre da mettere 'stage.setTitle("bla")' e 'stage.show()' e anche un main (anche se non per forza necessario se faccio un javafx project ma evitiamo :)):
+	public static void main(String[] args) {
+		launch(args);
+	}
+
+
+
+
+
+
 
 
 

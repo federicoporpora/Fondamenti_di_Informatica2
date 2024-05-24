@@ -1,0 +1,63 @@
+StartContact
+Gabriel;Zanonix
+Phone;Home;0515445544
+Phone;Home;0515445544
+EMail;@Home;geniodelmale@gmail.com
+EMail;@Home;geniodelmale@gmail.com
+Address;Home;Giardini Magherita Violetta;99;40100;Bologna;Italia
+Address;Home;Giardini Magherita Violetta;99;40100;Bologna;Italia
+EndContact
+StartContact
+Lorenz;Rose
+Phone;Home;0515445544
+Phone;Home;0515445544
+Address;Home;Giardini Magherita Violetta;99;40100;Bologna;Italia
+Address;Home;Giardini Magherita Violetta;99;40100;Bologna;Italia
+EndContact
+StartContact
+Silvy;Lanzonix
+Address;Ufficio;viale Risorgimento;2;40136;Bologna;Italy
+Phone;Ufficio;0502093000000
+EndContact
+StartContact
+Enrique;Dent
+Phone;Home;0515445544
+EMail;@Home;geniodelmale@gmail.com
+Address;Home;Giardini Magherita Violetta;99;40100;Bologna;Italia
+Address;Home;Giardini Magherita Violetta;99;40100;Bologna;Italia
+EndContact
+StartContact
+Robby;Calegax
+Phone;Home;0515445544
+Phone;Home;0515445544
+Address;Home;Giardini Magherita Violetta;99;40100;Bologna;Italia
+Address;Home;Giardini Magherita Violetta;99;40100;Bologna;Italia
+EndContact
+StartContact
+Ilary;Crivex
+Address;Ufficio;via Risorgimento;2;40136;Bologna;Italia
+Phone;ufficio;+3920930000000
+EndContact
+StartContact
+Matt;Casts
+Phone;Home;0515445544
+Phone;Home;0515445544
+Address;Home;Giardini Magherita Violetta;99;40100;Bologna;Italia
+Address;Home;Giardini Magherita Violetta;99;40100;Bologna;Italia
+EndContact
+StartContact
+Amber;Molesque
+Phone;Home;0515445544
+Phone;Home;0515445544
+Address;Home;Giardini Magherita Violetta;99;40100;Bologna;Italia
+Address;Home;Giardini Magherita Violetta;99;40100;Bologna;Italia
+EMail;lavoro;ambra.molesini@unibo.it
+EndContact
+StartContact
+Peter;Flak
+Phone;Home;0515445544
+Phone;Home;0515445544
+EMail;@Home;geniodelmale@gmail.com
+EMail;@Home;geniodelmale@gmail.com
+Address;Home;Giardini Magherita Violetta;99;40100;Bologna;Italia
+EndContact
