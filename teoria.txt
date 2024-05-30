@@ -556,7 +556,107 @@ Sempre da mettere 'stage.setTitle("bla")' e 'stage.show()' e anche un main (anch
 		launch(args);
 	}
 
+Agendo sullo STAGE andiamo a cambiare tutte le proprietà della finestra vera e propria: possiamo cambiarne la grandezza, la posizione e il titolo.
+Per mettere sullo stage una scena si scrive:
+	stage.setScene(scene);
 
+La SCENE invece è soltanto una specie di contenitore di tutti i vari pannelli che contiene. Ha uno sfondo e spessissimo viene semplicemente creata e utilizzata come supporto dei
+pannelli. Ha infatti un costruttore che accetta un pannello, le sue grandezze e se voglio un colore (Color.YELLOW...):
+	Scene scene = new Scene(panel, dimensioneXSeVoglio, dimensioneYSeVoglio, coloreSeVoglio);
+
+I PANE sono i singoli componenti che vanno a formare l'applicazione. Possono essere per esempio un testo, un'immagine, un media player, ...
+Ci sono vari tipi di pannelli, quello più usato solitamente è il FlowPane. Il costruttore è:
+	FlowPane panel = new FlowPane()
+
+Se voglio aggiungere un elemento ad un pannello, devo aggiungerlo alla sua lista di figli scrivendo per esempio:
+	panel.getChildren().add(canvas);
+mentre per creare per esempio un canvas devo scrivere:
+	Canvas canvas = new Canvas(528, 448);
+
+PANNELLI
+
+Tutte le applicazioni javafx sono applicazioni fatte a nodi. Il pannello che viene inserito nella scena è il nodo radice, ogni altro componente aggiunto è un nodo figlio.
+Il pannello principale ha vari layout diversi (non si usano le coordinate assolute perché dispositivi diversi con risoluzioni diverse potrebbero vedere gli oggetti in modo errato)
+	HBox -> tutto orizzontale
+	VBox -> tutto verticale
+	FlowPane -> da sinistra verso destra POI dall'alto verso il basso
+	BorderPane -> ha una parte in alto, in basso, a sinistra, a destra e al centro
+	StackPane -> un oggetto sopra all'altro
+
+
+
+
+CONTROLLI
+Ce ne sono moltissimi:
+	
+	COMPONENTI PASSIVI (che non generano eventi, sono solo grafici):	
+	
+	LABEL
+	è un testo (traduzione = etichetta), viene inizializzato come 'Label l1 = new Label("Etichetta 1");' e possiamo modificare alcune cose come il font, lo stile e la grandezza
+	'l1.setFont(Font.font("Times New Roman", FontPosture.ITALIC, 18));'
+	ovviamente dopo va aggiunto al pannello come figlio con 'panel.getChildren().add(l1);' (in realtà no, funziona così sono con il flowpane, per alcuni altri ci sono metodi
+																specifici, come 'setCentre()' di BorderPane)
+	
+	IMAGEVIEW
+	semplicemente un'immagine, può essere presa da file, ma anche metodi per prenderla da url o altro. Il costruttore è:
+		'new ImageView(new Image("alberi.jpg", 400, 300, true, false));' in cui true e false sono assolutamente inutili, infatti c'è anche il costruttore con niente dentro
+	tranne il nome dell'immagine e prende in automatico la risoluzione.
+	
+
+
+
+	COMPONENTI CHE POSSONO ESSERE SIA ATTIVI CHE PASSIVI:
+	
+	TEXTFIELD
+	immissione di testo a riga singola. Ha dei metodi di base per pilotare la stampa e l'input dell'utente:
+		'setText'
+		'getText'
+		'setEditable'
+	genera eventi se si preme INVIO sulla tastiera
+
+
+	TEXTAREA
+	immisione di testo su più righe. Ha dei metodi di base come il precedente:
+		'appendText'
+		'setPrefColumnCount' (imposta la grandezza preferita dell'area di testo in termini di colonne)
+		'setEditable'
+	genera eventi se cambia il contenuto dell'area di testo
+
+
+
+
+	COMPONENTI ATTIVI E GESTIONE DEGLI EVENTI:
+	ci sono moltissimi tipi di oggetti che creano eventi di molti tipi diversi. Ogni oggetto crea un evento che descrive ciò che è accaduto. Per esempio un bottone genera
+	l'evento "azione", una lista di voci quello "item selezionato" ed un campo di testo l'evento "azione" ed altri eventi solo quando viene premuto INVIO. Infatti gli oggetti
+	possono creare anche più eventi allo stesso momento, che descrivono cose diverse che sono accadute.
+
+
+	BUTTON
+	ogni volta che viene cliccato crea un'istanza di ActionEvent, a cui va associato un ascoltatore per intercettare questo evento.
+	L'ascoltatore deve:
+		essere del giusto tipo
+		implementare l'interfaccia 'EventHandler<ActionEvent>' che dichiara il metodo 'void handle(ActionEvent ev)'
+	L'ascoltatore può essere ogni classe che voglio, ma spesso è una classe anonima o una lambda. Ovviamnte se voglio metterlo in una classe diversa devo passare alla classe
+	anche passargli il label da modificare, poiché non ne ha accesso
+
+	Per costruire il bottone si usa:
+
+	CLASSE STESSA
+		'Button b = new Button("Tizio/Caio");' e per gestire l'evento, scrivo
+		'b.setOnAction(ClasseInCuiE'IlMetodoHandle);' (se il metodo handle è nella stessa classe del setOnAction scrivo 'b.setOnAction(this);')
+
+	CLASSE ESTERNA
+		Button b = new Button("Tizio/Caio");
+		b.setOnAction(new Es8bisListener(l)); -> gli passo anche 'l' che è il label dato che non ne ha accesso
+
+	LAMBDA EXPRESSION
+		Button b = new Button("Tizio/Caio");
+		b.setOnAction(this::myHandle); -> devo comunque implementare il metodo myHandle, ma non è più in un'interfaccia e non è più nella stessa classe, in realtà il
+						  compilatore crea una classe anonima con dentro la funzione. Ascoltatore esterno e non interno come sembra
+
+	LAMBDA EXPRESSION IN LOCO
+		Button b = new Button("Tizio/Caio");
+		b.setOnAction(event -> l.setText(l.getText().equals("Tizio") ? "Caio" : "Tizio"));
 
 
 
