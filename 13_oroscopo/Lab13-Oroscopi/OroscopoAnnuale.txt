@@ -1,63 +1,87 @@
-GEMELLI
--------
+SAGITTARIO
+----------
 GENNAIO
-Amore:	divertimento nello stare insieme
-Lavoro:	non sopravvalutate chi vi e' intorno
-Salute:	non affaticate la cistifellea
-
+AMORE:
+grande intimita'
+LAVORO:
+diffidate di un collega invidioso
+SALUTE:
+attenzione alle piccole infiammazioni
 FEBBRAIO
-Amore:	chi e' single avra' nuove occasioni
-Lavoro:	impegnatevi di piu'
-Salute:	perfetto equilibrio
-
+AMORE:
+chi e' single avra' nuove occasioni
+LAVORO:
+diffidate di un collega invidioso
+SALUTE:
+meglio mangiare in modo salutare
 MARZO
-Amore:	grande intimita'
-Lavoro:	impegnatevi di piu'
-Salute:	meglio mangiare in modo salutare
-
+AMORE:
+servira' un po' di pazienza
+LAVORO:
+diffidate di un collega invidioso
+SALUTE:
+meglio mangiare in modo salutare
 APRILE
-Amore:	divertimento nello stare insieme
-Lavoro:	non sopravvalutate chi vi e' intorno
-Salute:	non siate irritabili
-
+AMORE:
+chi e' single avra' nuove occasioni
+LAVORO:
+cogliete le occasioni
+SALUTE:
+attenzione alle piccole infiammazioni
 MAGGIO
-Amore:	grande intimita'
-Lavoro:	non sopravvalutate chi vi e' intorno
-Salute:	non affaticate la cistifellea
-
+AMORE:
+divertimento nello stare insieme
+LAVORO:
+impegnatevi di piu'
+SALUTE:
+non siate irritabili
 GIUGNO
-Amore:	divertimento nello stare insieme
-Lavoro:	impegnatevi di piu'
-Salute:	potete permettervi anche i pasticcini
-
+AMORE:
+divertimento nello stare insieme
+LAVORO:
+non sopravvalutate chi vi e' intorno
+SALUTE:
+meglio mangiare in modo salutare
 LUGLIO
-Amore:	chi e' single avra' nuove occasioni
-Lavoro:	la lungimiranza sara' la vostra forza
-Salute:	potete permettervi anche i pasticcini
-
+AMORE:
+chi e' single avra' nuove occasioni
+LAVORO:
+non sopravvalutate chi vi e' intorno
+SALUTE:
+attenzione alle piccole infiammazioni
 AGOSTO
-Amore:	servira' un po' di pazienza
-Lavoro:	non sopravvalutate chi vi e' intorno
-Salute:	potete permettervi anche i pasticcini
-
+AMORE:
+servira' un po' di pazienza
+LAVORO:
+cogliete le occasioni
+SALUTE:
+attenzione alle piccole infiammazioni
 SETTEMBRE
-Amore:	servira' un po' di pazienza
-Lavoro:	diffidate di un collega invidioso
-Salute:	non affaticate la cistifellea
-
+AMORE:
+divertimento nello stare insieme
+LAVORO:
+impegnatevi di piu'
+SALUTE:
+meglio mangiare in modo salutare
 OTTOBRE
-Amore:	grande intimita'
-Lavoro:	cogliete le occasioni
-Salute:	attenzione alle piccole infiammazioni
-
+AMORE:
+divertimento nello stare insieme
+LAVORO:
+non sopravvalutate chi vi e' intorno
+SALUTE:
+potete permettervi anche i pasticcini
 NOVEMBRE
-Amore:	divertimento nello stare insieme
-Lavoro:	cogliete le occasioni
-Salute:	meglio mangiare in modo salutare
-
+AMORE:
+dedicate piu' tempo al partner
+LAVORO:
+diffidate di un collega invidioso
+SALUTE:
+praticate calma e moderazione
 DICEMBRE
-Amore:	avrai la testa un po' altrove
-Lavoro:	cogliete le occasioni
-Salute:	potete permettervi anche i pasticcini
-
-GRADO DI FORTUNA:	6
+AMORE:
+chi e' single avra' nuove occasioni
+LAVORO:
+la lungimiranza sara' la vostra forza
+SALUTE:
+perfetto equilibrio
+GRADO DI FORTUNA:	5

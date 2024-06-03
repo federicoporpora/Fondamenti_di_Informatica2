@@ -589,7 +589,7 @@ Il pannello principale ha vari layout diversi (non si usano le coordinate assolu
 CONTROLLI
 Ce ne sono moltissimi:
 	
-	COMPONENTI PASSIVI (che non generano eventi, sono solo grafici):	
+COMPONENTI PASSIVI (che non generano eventi, sono solo grafici):	
 	
 	LABEL
 	è un testo (traduzione = etichetta), viene inizializzato come 'Label l1 = new Label("Etichetta 1");' e possiamo modificare alcune cose come il font, lo stile e la grandezza
@@ -612,7 +612,13 @@ Ce ne sono moltissimi:
 		'setText'
 		'getText'
 		'setEditable'
+		'setPrefColumnCount' (imposta la grandezza preferita dell'area di testo in termini di colonne)
+		'setTooltip' per mettere un consiglio quando ci si passa sopra col mouse (funziona con tutti i bottoni e tasti vari, non solo textfield)
 	genera eventi se si preme INVIO sulla tastiera
+
+
+	PASSWORDFIELD
+	uguale a textfield solo che non fa vedere i caratteri
 
 
 	TEXTAREA
@@ -625,7 +631,7 @@ Ce ne sono moltissimi:
 
 
 
-	COMPONENTI ATTIVI E GESTIONE DEGLI EVENTI:
+COMPONENTI ATTIVI E GESTIONE DEGLI EVENTI:
 	ci sono moltissimi tipi di oggetti che creano eventi di molti tipi diversi. Ogni oggetto crea un evento che descrive ciò che è accaduto. Per esempio un bottone genera
 	l'evento "azione", una lista di voci quello "item selezionato" ed un campo di testo l'evento "azione" ed altri eventi solo quando viene premuto INVIO. Infatti gli oggetti
 	possono creare anche più eventi allo stesso momento, che descrivono cose diverse che sono accadute.
@@ -641,24 +647,50 @@ Ce ne sono moltissimi:
 
 	Per costruire il bottone si usa:
 
-	CLASSE STESSA
+		CLASSE STESSA
 		'Button b = new Button("Tizio/Caio");' e per gestire l'evento, scrivo
 		'b.setOnAction(ClasseInCuiE'IlMetodoHandle);' (se il metodo handle è nella stessa classe del setOnAction scrivo 'b.setOnAction(this);')
 
-	CLASSE ESTERNA
+		CLASSE ESTERNA
 		Button b = new Button("Tizio/Caio");
 		b.setOnAction(new Es8bisListener(l)); -> gli passo anche 'l' che è il label dato che non ne ha accesso
 
-	LAMBDA EXPRESSION
+		LAMBDA EXPRESSION
 		Button b = new Button("Tizio/Caio");
 		b.setOnAction(this::myHandle); -> devo comunque implementare il metodo myHandle, ma non è più in un'interfaccia e non è più nella stessa classe, in realtà il
 						  compilatore crea una classe anonima con dentro la funzione. Ascoltatore esterno e non interno come sembra
 
-	LAMBDA EXPRESSION IN LOCO
+		LAMBDA EXPRESSION IN LOCO
 		Button b = new Button("Tizio/Caio");
 		b.setOnAction(event -> l.setText(l.getText().equals("Tizio") ? "Caio" : "Tizio"));
 
+	
+	COMBOBOX
+	widget che premette di scegliere tra un elenco di elementi da una lista pop-up. Può essere anche editabile e aggiungere nuove opzioni alla lista.
+	Va inizializzato ed è tipizzato, quindi si scrive:
+		'ComboBox<String> cb = new ComboBox<>();'
+	mentre per decidere gli elementi da mettere all'interno della lista gli passo solitamente un array di oggetti del tipo del combobox oppure glieli scrivo direttamente:
+		cb.setItems(FXCollections.observableArrayList("Rosso","Giallo","Verde", "Blu"));
+				  |> metodo factory apposta
+	anche questo ogni volta che viene cambiata l'opzione della combobox con la funzione 'setOnAction' manda un evento che fa quello che vogliamo noi
 
+
+	DATEPICKER
+	calendario. Di default si mette sulla data corrente, ma possiamo forzarlo a centrarsi in un'altra data a nostro piacimento.
+	Metodi principali:
+		'getValue' restituisce un LocalDate ed è quello che attualmente è selezionato dall'utente
+		'setValue' con un LocalDate posso mettere il calendario dove voglio
+
+
+	COLORPICKER
+	semplicemente per scegliere un colore, non posso fargli nient'altro. Metodi
+		'getValue().getRed()' per il valore del rosso
+		'getValue().getGreen()' per il valore del verde
+		'getValue().getBlue()' per il valore del blu
+
+
+	SLIDER
+	
 
 
 
