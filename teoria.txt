@@ -782,7 +782,70 @@ COMPONENTI ATTIVI E GESTIONE DEGLI EVENTI:
 	molto simile al toggle, solo che rappresenta un quadrato con un tick e ne posso mettere più di uno insieme.
 	Se ce ne è solo uno si comporta ugualmente al Toggle, con gli stessi metodi
 	Se invece ci sono più di un CheckBox possiamo fare in vari modi:
-		1. oltre all'evento classico si mette una funzione da implementare chiamata 'myAuxHandler()' o altro che gestisce tutti i casi,
-		compreso quello in cui tutti e due sono selezionati. Ovviamente per fare in modo che la funzione 'myAuxHandler()' possa accede
-		allo stato dei CheckBox con il metodo '.isSelected()', i CheckBox devono essere nella stessa classe come dei dati private, non
-		dichiarati solo nel main
+		1. (due listener impliciti nelle lambda expression) oltre all'evento classico si mette una funzione da implementare chiamata
+		'myAuxHandler()' o altro che gestisce tutti i casi, compreso quello in cui tutti e due sono selezionati. Ovviamente per fare
+		in modo che la funzione 'myAuxHandler()' possa accede allo stato dei CheckBox con il metodo '.isSelected()', i CheckBox
+		devono essere nella stessa classe come dei dati private, non dichiarati solo nel main
+		2. posso utilizzare un listener unico 'myHandle' che capendo da chi è arrivato l'evento con il metodo '.getSource' anche se
+		questo non si usa molto a causa del metodo '.getSource' che ha bisogno del nome della variabile da cui è arrivato l'evento
+		e in causa del cambiamento del nome della variabile va cambiato anche qui.
+
+
+	RADIOBUTTON
+	uguale al CheckBox ma posso scegliere un'opzione alla volta (mutualmente esclusiva) (immagina la scelta del sesso M o F)
+	per gestire più RadioButton posso
+		1. gestire i pulsanti singolarmente (non si fa)
+		2. ToggleGroup (usa questo)
+	per utilizzare il ToggleGroup devo inanzitutto creare i RadioButton con il classico costruttore:
+		'b1 = new RadioButton("Pere");'
+		'b2 = new RadioButton("Mele");'
+	poi creo il ToggleGroup sempre con il suo costruttore:
+		'tg = new ToggleGroup();'
+	e ci aggiungo i vari RadioButton:
+		'b1.setToggleGroup(tg);'
+		'b2.setToggleGroup(tg);'
+	poi uso il metodo '.selectedToggleProperty()' sul ToggleGroup e ci aggancio il listener con la lambda expression da svolgere ad ogni evento
+		'tg.selectedToggleProperty().addListener((changed, oldval, newval) ->
+			txt1.setText("Opzione corrente: " + ((RadioButton)newval).getText()));'
+	
+	
+	
+	LISTVIEW
+	lista con scrollbar che fa scegliere un'opzione dall'elenco (di default selezione singola, ma posso anche fare quella multipla)
+	Quando una voce viene scelta, nel model associato viene modificata la proprietà 'selectedItemProperty'.
+	La lista è tipizzata, quindi il costruttore è:
+		'ListView<String> listview = new ListView<>();'
+	e per popolare la ListView si usano i metodi factory di FXCollections:
+		'listview.setItems(FXCollections.observableArrayList("Rosso", "Giallo", "Verde", "Blu"));'
+	inoltre di default mostra 10 item, molto brutto, quindi:
+		'listview.setPrefHeight(listview.getItems().size()*24+ 2);' -> altezza
+		'listview.setPrefWidth(72);' -> larghezza
+	poi per gestire l'evento:
+		'listview.getSelectionModel().selectedItemProperty().addListener((obj, oldval, newval) -> txt1.setText("Opzione corrente: " + newval) );'
+	(il metodo che gestisce l'evento è 'ChangeListener' che qui viene implementato come lambda expression)
+	SELEZIONE MULTIPLA:
+	prima definisco la ListView come lista con selezione multipla:
+		'listview.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);'
+	poi per la gestione degli eventi si usa un for each che passa su listview.getSelectionModel().getSelectedItems():
+		listview.getSelectionModel().selectedItemProperty().addListener(
+			(obj, oldval, newval) -> {
+				StringBuilder sb = new StringBuilder();
+				for(String item : listview.getSelectionModel().getSelectedItems())
+					sb.append(item+", ");
+					txt1.setText("Opzione corrente: " + sb) ;
+			}
+		);
+	MODIFICA ELEMENTI
+	posso inoltre andare ad aggiungere o rimuovere elementi dalla lista agendo su .getItems:
+		'ba.setOnAction(e -> listview.getItems().add(txt2.getText()));' -> aggiunta (non controlla i duplicati)
+		'br.setOnAction(e -> listview.getItems().remove(txt2.getText()));' -> rimozione
+		
+	
+	
+	CHOICEBOX
+	uguale a ListView, ma gli elementi sono a pop-up e non permanenti. (tipo mastermind)
+
+
+
+
+GRAFICI DA DIAPOSITIVA 120 (speriamo che non ci siano)
