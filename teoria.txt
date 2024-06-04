@@ -526,8 +526,8 @@ si usa try {} catch (eccezione e) {}. possono esserci più catch
 	− 'ArithmeticException' per divisioni per zero e casi analoghi
 	− 'ClassCastException' per tentativi di cast incoerenti
 
-per nuove eccezioni creo una classe che estende 'IllegalArgumentException' o l'errore che voglio andare a modificare e creo i due costruttori, uno senza nulla per il messaggio semplice,
-uno con una stringa per l'errore con un messaggio personalizzato (usa super() e super(s))
+per nuove eccezioni creo una classe che estende 'IllegalArgumentException' o l'errore che voglio andare a modificare e creo i due costruttori, uno senza nulla per
+il messaggio semplice, uno con una stringa per l'errore con un messaggio personalizzato (usa super() e super(s))
 
 nel caso in cui non voglia gestire subito un errore, posso andare a rilanciare l'errore alla classe superiore o al prossimo utilizzatore del codice. In questo caso non vado
 a scrivere try e catch, ma all'inizio per esempio del metodo scrivo 'throws Errore' così l'utente esterno sa che il metodo o la classe che sto scrivendo potrebbe andare a creare
@@ -690,11 +690,99 @@ COMPONENTI ATTIVI E GESTIONE DEGLI EVENTI:
 
 
 	SLIDER
+	barra di regolazione, tipo quella del volume. Regolazioni:
+		limiti max e min
+		mettere una graduazione nella scala
+		major tick units e minor tick units
+		orientazione (orizzontale o verticale)
+
+	il costruttore è:
+		'slider = new Slider(0,10,5);' in cui i valori sono min, max e la posizione iniziale del cursore
+	il listener va aggiunto in '.valueProperty()', per esempio:
+		'slider.valueProperty().addListener( (changed, oldval, newval) ->
+			System.out.println("Valore corrente: " + formatter.format(newval) + ", valore passato: " + formatter.format(oldval)));
 	
+	per configurarla ci sono molti metodi:
+		'slider.setShowTickMarks(true);' -> fa vedere i tick
+		'slider.setShowTickLabels(true);' -> fa vedere i numeri sotto ai tick
+		'slider.setMajorTickUnit(1);' -> i tick sono ogni 1 unità
+		(queste prime 3 sono solitamente insieme)
+		'slider.setMinorTickCount(1);' -> i tick più piccoli sono ogni unità
+		'slider.setBlockIncrement(1);' -> se uso le freccette mi sposto di 1 unità
+		'slider.setSnapToTicks(true);' -> forza il cursore a stare sui tick
+		'slider.setOrientation(Orientation.VERTICAL);' -> verticale
 
 
 
+	SPINNER
+	sceglie da una lista con le freccette solitamente in su e giù entro dei limiti già decisi
+		i valori possono essere tutti quelli che vuoi (interi, reali, liste o user-defined)
+		c'è una factory per produrre i valori
+		listener va messo sulla proprietà 'valueProperty'
+
+	il costruttore è:
+		'Spinner<Integer> spinner = new Spinner (0, 10, 5);' -> uguale a Slider
+	se vuoi uno spinner con delle frecce precise, metto:
+		'spinner.getStyleClass().add(Spinner.STYLE_CLASS_ARROWS_ON_RIGHT_HORIZONTAL);'
+	il listener invece va messo:
+		spinner.valueProperty().addListener( (changed, oldval, newval) ->
+			txt1.setText("Valore corrente: " + formatter.format(newval) + " (era: " + formatter.format(oldval) + ")")
 
 
 
+	PROGRESSBAR
+	dispositivo (solitamente) di output che indica a che punto siamo arrivati in un determinato processo
+	il costruttore è:
+		'ProgressBar bar = new ProgressBar(0.25);'
+	e per cambiare il numero si scrive:
+		'bar.setProgress(0.456);'
+	Il cambio di numero sia da input che da output scatena un evento che si prende:
+		'bar.progressProperty().addListener( (changed, oldval, newval) ->
+			txt1.setText("Valore corrente: " + formatter.format(newval) + " (era: " + formatter.format(oldval) + ")")');'
 
+	PROGRESSINDICATOR
+	uguale identico a ProgressBar ma fa vedere l'andamento in un grafico a torta
+	
+	
+	
+	FILECHOOSER
+	è un dialogo. Solitamente si fa comparire dopo aver premuto un bottone. Si usa sia per aprire che per salvare file.
+	Il costruttore è:
+		FileChooser chooser = new FileChooser();
+	Posso mettergli un titolo:
+		'chooser.setTitle("Apri file");'
+	e per la funzionalità vera e propria di aprire/salvare file si scrive:
+		'File selectedFile = chooser.showOpenDialog(stage);' -> per aprire file
+		'File selectedFile = chooser.showSaveDialog(stage);' -> per salvare file
+		
+	Si possono filtrare anche i file per tipo:
+		'chooser.getExtensionFilters().addAll(
+			new ExtensionFilter("Text Files", "*.txt"),
+			new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
+			new ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
+			new ExtensionFilter("All Files", "*.*"));'
+	e posso decidere anche se volere selezioni multiple di file:
+		'List<File> selectedFiles = chooser.showOpenMultipleDialog(stage);'
+			(invece di 'File selectedFile = chooser.showOpenDialog(stage);')
+	
+	ATTENZIONE: SE L'UTENTE PREME ANNULLA IL FILECHOOSER RESTITUISCE 'null'
+	
+	
+	
+	
+	TOGGLE
+	tasto che è attivato o disattivato (come un interruttore per la luce). Genera eventi sia quando si attiva che disattiva.
+	C'è il classico costruttore
+		'ToggleButton tg1 = new ToggleButton("Toggle");'
+	e per capire nella lambda expression se è selezionato oppure no si scrive
+		'tg1.isSelected()' che retituisce vero se è selezionato e falso se non lo è.
+	
+	
+	CHECKBOX
+	molto simile al toggle, solo che rappresenta un quadrato con un tick e ne posso mettere più di uno insieme.
+	Se ce ne è solo uno si comporta ugualmente al Toggle, con gli stessi metodi
+	Se invece ci sono più di un CheckBox possiamo fare in vari modi:
+		1. oltre all'evento classico si mette una funzione da implementare chiamata 'myAuxHandler()' o altro che gestisce tutti i casi,
+		compreso quello in cui tutti e due sono selezionati. Ovviamente per fare in modo che la funzione 'myAuxHandler()' possa accede
+		allo stato dei CheckBox con il metodo '.isSelected()', i CheckBox devono essere nella stessa classe come dei dati private, non
+		dichiarati solo nel main
