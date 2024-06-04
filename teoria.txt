@@ -19,20 +19,110 @@ per creare un file .jar eseguibile:
     info.txt è un file che contiene la riga:
         Main-Class: NomeclasseMain -> seguita da una riga vuota INDISPENSABILE
 
+
+ISTANZE
+Sono le "variabili principali" della classe che vengono dichiarate all'inizio e assegnate nel costruttore
+
+VARIABILI STATICHE
+Sono dichiarate all'inizio della classe e gli viene dato un valore, possono essere modificate
+
+METODI STATICI E NON STATICI
+Metoci statici: non fanno uso di istanze e possono essere chiamati solo nella classe
+Metodi non statici: richiedono di essere associati ad un istanza
+
+FINAL
+Variabili final: costanti inmodificabili che devono essere inizializzate
+Metodi final: non possono essere sovrascritti da sottoclassi
+Classi final: non può essere estesa, non può essere usata come superclasse
+
 TIPI PRIMITIVI
 per conversione di tipi primitivi in java si usa il CAST:
     float f = (float) 3.54;     oppure     float f = 3.54F; -> ques'ultimo non è cast ma direttamente
                                                                l'input giusto
 
+per convertire si usano per esempio:
+float f= 3.14F; 
+int i=f.intValue(); //i vale 3
+
 i caratteri in java ovviamente non seguono più la tabella ASCII che ha pochissimi caratteri,
 ma UTF-8, UTF-16 e UTF-32
 
 
+TOSTRING TIPS
+Esempio STRINGJOINER:
+public String toString() {
+		StringJoiner res = new StringJoiner(",");
+		for (PioloDiGioco piolo : combinazione) {
+			res.add(piolo.toString());
+		}
+		return res.toString();
+	}
+}
+Spegaz:
+Crea StringJoiner res per unire le parole dividendole con ",".
+Sceglie le parole col ForEach (for(Tipo puppa : insiemeDiPuppe) significa "per ogni puppa nell'insieme di puppe").
+Le aggiunge allo StringJoiner con add.
+Ritorna lo StringJoiner.toString() per renderlo una stringa vera e propria.
+
+Esempio STINGBUILDER:
+public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		for (int i = 0; i < size(); ++i) {
+			sb.append(get(i).toString());
+			if (i < size() - 1)
+				sb.append(", ");
+		}
+		sb.append("]");
+		return sb.toString();
+	}
+Non ho voglia di spiegarlo si commenta da solo.
+Molto simile a StringJoiner, questo ti da tanti bei comandi (come append) per fare stringhe belline ez clapped.
+Ricorda il toString al return.
+
+ENUMERATIVI
+sono semplicemente alias final per costanti int
+per esempio:
+
+public enum Direction {
+        NORTH, SOUTH, EAST, WEST;
+}
+
+NORTH=0, SOUTH=1 ecc...
+
+per assegnarli si usa:
+Direction dir = Direction.NORTH;
+
+Metodi:
+-Direction.values() fornisce i valori su cui iterare
+-Direction.valueOf() converte una stringa nel corrispondente
+oggetto dell'enumerativo
+-d.ordinal() restituisce il valore intero dell'enum
+esempio:
+
+for (Direction d : Direction.values())
+        System.out.println( d.ordinal() );
+System.out.println(Direction.valueOf("EAST"));
+
+->OUTPUT: 0 1 2 3 EAST
+
+E per dare valori aggiuntivi all'enum? si fa cosi: 
+
+public enum Direction {
+        NORTH("Nord", 0), SOUTH("Sud", 180),
+        EAST("Est", 90), WEST("Ovest", 270);
+        
+        private String value;
+        private int degrees;
+        
+        private Direction(String value, int degrees) {
+                this.value = value; this.degrees = degrees;
+        }
+}
 
 
 
-
-Date
+DATE
 Per tutte le cose che hanno a che fare con il tempo si importa la libreria java.time.*
 
 Questa libreria non utilizza il termine 'new', ma ha un costruttore proprio che è '.of'.
@@ -216,14 +306,104 @@ Per formattatori che vogliono sia le date che l'orario si usa il metodo '.ofLoca
 
 
 
+EREDITARIETA'
+le superclassi sono le classi con i metodi base di sottoclassi piu complesse e meno generiche, 
+si usa la gerarchia per non dover creare classi simili molteplici volte
+
+-public class superclasse{
+
+-public class sottoclasse extends superclasse{
+
+per richiamare i metodi della superclasse nella sottoclasse si usa super.metodo(..), 
+per il costruttore super(..), 
+per i campi super.campo
+
+nuovo tipo di copertura via di mezzo tra public e private:
+"protected"=permette l'accesso alla classe stessa e le sottoclassi e ha simbolo #
+
+se si crea un metodo nella sottoclasse con nome analogo ad un metodo già 
+presente nella superclasse si mette @Override
+
+
+POLIMORFISMO
+polimorfismo verticale: perchè si sale escende nella gerarghia
+la sostanza prevale sulla forma.
+un metodo polimorfo è in grado di adattare il suo comportamento allo specifico oggetto.
+il tipo "object" è il supertipo riferimento capostitipe, ogni classe sottintende "extends object"
+
+
+EQUALS
+posso assegnere un tipo ad object per esempio:
+Frazione f= new Frazione(..);
+Object obj= f;
+e metterlo dentro ad una equals che richiede object come signature
+
+public boolean equals(object obj){
+        //all'interno di equals se voglio riferirmi ad obj come fosse una Frazione dovrò scrivere:
+        Frazione that = (Frazione)obj;
+        return (this.num*that.den == this.den*that.num); 
+}
+
+però così non controlliamo se obj è effettivamente una Frazione e lo diamo per scontato
+possiamo quindi inserire un operatore instanceof che controlli:
+
+public boolean equals(Object obj){
+        if (obj instanceof Counter)
+	return this.value==((Counter)obj).value;
+        else return false;
+}
+
+ANZI possiamo anche convertirlo direttamente insieme al controllo:
+
+public boolean equals(Object obj){
+        if (obj instanceof Counter that)
+	return this.value==that.value;
+        else return false;
+}
+
+
+HASHCODE
+restituisce il valore hash di un oggetto sottoforma di int.
+Importante ricordare che:
+	-due oggetti uguali (equals true) in equalsh hanno SICURAMENTE lo stesso valore hash
+	-due oggetti diversi (equals false) POSSONO avere lo stesso valore hash
+
+
+
+WRAPPER PER TIPI PRIMITIVI
+In Java i tipi base/primitivi (boolean, char, int ecc.) non sono classi e quindi i loro valori non sono Object
+Sono Object invece cose come String, Counter(), Frazione()...
+Quindi non posso inserie un tipo base dove ci vuole un object e viceversa.
+
+//quello scritto qua sotto viene tuttavia fatto da java in automatico
+
+Per ovviare a questo problema ci sono le "classi wrapper" che incaplsulano i valori primitivi.
+Solitamente sono omonime (o quasi) al tipo che incapsulano:
+– classe Integer per incapsulare il tipo primitivo int
+– classe Character per incapsulare il tipo primitivo char
+– classe Long per incapsulare il tipo primitivo long
+– classe Float per incapsulare il tipo primitivo float
+– classe Double per incapsulare il tipo primitivo double
+ecc..
+
+Per incapsulare (BOXING) si utilizza .valueOf(..):
+Integer i = Integer.valueOf(22);
+Double d = Double.valueOf(3.14);
+
+Per estrarre il valore (UNBOXING) si usa il metodo di estrazione:
+int x = i.intValue(); // x vale 22
+double z = d.doubleValue(); // z vale 3.14
+
+//un po di cultura comunque non fa male
+
 
 
 RECORD
 
 record ===> contenitori di valori.
 
-Si inizializzano così:
-record Puppa(int numero, String nome) {}
+Sono final, non sono class, non possono essere ne astratti ne estesi e si inizializzano così:
+public record Puppa(int numero, String nome) {}
 
 utili perché il compilatore crea in automatico il costruttore e i get. Per esempio posso usare nel caso precedente getNumero() o getNome() senza scriverlo io manualmente.
 
@@ -325,11 +505,97 @@ Una classe, se vuole implementare un'interfaccia, scrive:
 	    |
 	    -> non necessariamente pubblica
 
+Esempio: 
+
+public interface Filter {
+	
+	public boolean filter(Media media);
+	
+}
+
+implementata:
+
+public class TypeFilter implements Filter {
+
+	private Type typeToFind;
+	
+	public TypeFilter(Type typeToFind) {...
+
+	public void setType(Type typeToFind) {...
+	
+	@Override
+	public boolean filter(Media media) {
+		if (media instanceof HasType m) {
+			return (m.getType().equals(typeToFind));
+		}
+		return false;
+	}
+
+}
+
+
+
+LISTE IN JAVA
+package edutils;
+
+public class List {
+	private Object elem;
+	private List next;
+
+	public List(){ elem=null; next=null;}
+	public List(Object e){ elem=e; next=null; }
+	public List(Object e, List l){ elem=e; next=l; }
+
+	public Object head(){ return elem; }
+	public List tail(){ return next; }
+
+	public boolean isEmpty(){ return elem==null; }
+
+	public String toString(){ return isEmpty()? "" :
+		elem.toString() +
+		(next==null ? "" : ", " + next.toString()); }
+}
+
+List l1 = new list();
+
+
+
+GENERICITA' E CONTROLLO DI TIPO PER ARRAY
+
+Chiamare ogni array generico con Object, può andare a creare moltissimi problemi, poiché posso andare a metterci dentro quello che voglio, anche di tipi
+diversi tra di loro. E' sempre meglio avere degli array di un tipo specifico, ma poi come faccio a fare delle funzioni che possono agire sugli array in
+generale? Per esempio la funzione 'idem' che analizza due array di un tipo qualsiasi e controllano che siano uguali. Se li chiamo Object in input della
+funzione potrei mandarci degli array con tipi diversi, con all'interno cose a caso, insomma non si fa.
+Per risolvere questo problema c'è l'utilizzo del polimorfismo orizzontale:
+
+per creare le varie funzioni si scrive:
+	public static <T> boolean idem(T[] a, T[] b);
+
+invece per la chiamata della funzione si scrive:
+	nomeClasse.<NomeDelTipoDiCuiSonoFattiGliArray>idem(array1, array2);
+
+Insomma è meglio del resto
+
+POLIMORFISMO ORIZZONTALE
+Introduce il tipo dell'Object come parametro
+
+
 TODO APPUNTI DELLE FACTORY DELLE INTERFACCE
 
-In java ci sono anche delle interfacce di default che servono al compilatore per capire se può eseguire determinate azioni.
+In java ci sono anche delle interfacce di default che servono al compilatore per capire se può eseguire determinate azioni (se ha una certa capacità).
 Per esempio esiste l'interfaccia tipizzata 'Comparable<T>' che indica se un oggetto è comparabile con un altro oggetto dello stesso tipo e implica la
-creazione del metodo 'public int compareTo(T that);'. Questo metodo serve al compilatore per eseguire moltissime azioni, ma le più importanti sono
+creazione del metodo 'public int compareTo(T that):
+
+Per esempio se voglio creare un comparatore per Counter, dovrò scrivere
+	public class MyComparatore implements Comparator<Counter> {
+		public int compareTo(Counter that){
+			if (val < that.val) return -1;
+			if (val > that.val) return +1;
+			return 0;
+		}
+	}
+
+Questo metodo serve al compilatore per eseguire moltissime azioni, ma le più importanti sono
 	ORDINEMENTO
 	- l'ordinamento di un array attraverso il metodo statico 'Arrays.sort'
 	- l'ordinamento di una lista attraverso il metodo 'Collections.sort'
@@ -352,10 +618,10 @@ che restituisce 1 se a > b, -1 se a < b e 0 se a == b.
 
 Per esempio se voglio creare un comparatore per Counter, dovrò scrivere
 	public class MyComparatore implements Comparator<Counter> {
-		public int compare(Counter x, Counter y)
+		public int compare(Counter x, Counter y){
 			if (x.val < y.val) return -1;
 			if (x.val > y.val) return +1;
-			/* else */ return 0;
+			return 0;
 		}
 	}
 
@@ -456,6 +722,7 @@ Interfaccia Iterable<T>:
 
 Interfaccia Collection<T>:
 	l'interfaccia è ancora molto generale, aggiunge solo alcuni metodi che andranno in tutte le classi e strutture dati sottostanti. I metodi sono:
+		- of (metodo factory che genera una struttura dati IMMODIFICABILE, esempio: List.of("Bologna", "Modena", "Parma"))
 		- add
 		- remove
 		- contains
@@ -509,13 +776,38 @@ Interfaccia SortedMap<K, V>:
 	uguale a SortedSet, mette le chiavi in ordine e devono essere comparable.
 
 
-Libreria Colletions: ha funzioni statiche per operare sulle collezioni, in particolare 'sort' e 'binarySearch' sono i più usati
+Libreria Collections: ha funzioni statiche per operare sulle collezioni, in particolare 'sort' e 'binarySearch' sono i più usati
 
 
+CERCARE PER INDICE IN UN SET 
+
+private SortedSet<Contact> contactSet;
+
+public Optional<Contact> getContact(int index) {
+		List<Contact> list = new ArrayList<Contact> (contactSet);
+		if (index < list.size()&& index>=0)
+			return Optional.of(list.get(index));
+		/* SOLUZIONE ALTERNATIVA
+		int = 0;
+		for (Contact contact : contactSet) {
+			if (i == index)
+				return contact;
+			i++;
+		}*/
+		return Optional.empty();
+	}
 
 
 ECCEZIONI
+sono allarmi programmati lanciati da un'operazione quando si verifica una situazione anomala, l'allarme viene poi gestito.
+si usa:
+	try { // operazione critica } 
+	catch (tipoEccezione e) {// in caso di problemi thir new ...exception..
+			//si continua qui}
+	// se tutto va bene
+	// si prosegue qui
 
+possono esserci anche più blocchi catch con eccezioni diverse
 si usa try {} catch (eccezione e) {}. possono esserci più catch
 
 	− 'IllegalArgumentException' per argomenti «non validi»
@@ -526,8 +818,20 @@ si usa try {} catch (eccezione e) {}. possono esserci più catch
 	− 'ArithmeticException' per divisioni per zero e casi analoghi
 	− 'ClassCastException' per tentativi di cast incoerenti
 
-per nuove eccezioni creo una classe che estende 'IllegalArgumentException' o l'errore che voglio andare a modificare e creo i due costruttori, uno senza nulla per
-il messaggio semplice, uno con una stringa per l'errore con un messaggio personalizzato (usa super() e super(s))
+Esempio:
+class Esempio1 {
+	public static void main(String[] args){
+ 		try { FileReader f = new FileReader(args[0]); }
+ 		catch(FileNotFoundException e){
+ 			System.err.println("File " + args[0] + " not found");
+ 			System.exit(1); // esce con indicazione d'errore
+ 		}
+	}
+}
+	
+
+per nuove eccezioni creo una classe che estende 'IllegalArgumentException' o l'errore che voglio andare a modificare e creo i due costruttori, uno senza nulla per il messaggio semplice,
+uno con una stringa per l'errore con un messaggio personalizzato (usa super() e super(s))
 
 nel caso in cui non voglia gestire subito un errore, posso andare a rilanciare l'errore alla classe superiore o al prossimo utilizzatore del codice. In questo caso non vado
 a scrivere try e catch, ma all'inizio per esempio del metodo scrivo 'throws Errore' così l'utente esterno sa che il metodo o la classe che sto scrivendo potrebbe andare a creare
