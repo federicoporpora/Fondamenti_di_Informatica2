@@ -1153,3 +1153,81 @@ COMPONENTI ATTIVI E GESTIONE DEGLI EVENTI:
 
 
 GRAFICI DA DIAPOSITIVA 120 (speriamo che non ci siano)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--appunti fede finiti qua per ora, dice di studiare da diapositiva 80 per eccezioni fisiche e logiche--
+
+
+
+//to be continued
+
+
+
+--cose che metto perche magari mi sveglio storto e le scordo (o anche solo per averle gia pronte)--
+LA FAMIGERATA FRACTIONCOLLACTION CON METODI PUT E REMOVE
+public class FractionCollection {
+	private static final int DEFAULT_PHYSICAL_SIZE = 10;
+	private static final int DEFAULT_GROWTH_FACTOR = 2;
+	
+	private Frazione[] innerContainer;
+	private int size;
+	
+	public FractionCollection(Frazione[] collection) {
+		innerContainer = new Frazione[collection.length];
+		size=0;
+		for (int i = 0; i < collection.length; ++i) {
+			
+			if (collection[i] != null) {
+				innerContainer[size] = collection[i];
+				size++; 
+				}
+			}
+	}
+	
+	public FractionCollection(int physicalSize) {
+		innerContainer = new Frazione[physicalSize];
+		size = 0;
+	}
+	
+	public FractionCollection() {
+		this(DEFAULT_PHYSICAL_SIZE);
+	}
+
+	public void put(Frazione f) {
+		if (innerContainer.length == size) {
+			Frazione[] newContainer = new Frazione[size * DEFAULT_GROWTH_FACTOR];
+			for (int i = 0; i < innerContainer.length; i++) {
+				newContainer[i] = innerContainer[i];
+			}
+			innerContainer = newContainer;
+		}
+		innerContainer[size++] = f;
+	}
+	
+	public void remove(int index) {
+		if (index < 0 || index >= size)
+			return;
+		
+		for (int i = index; i < size - 1; i++) {
+			innerContainer[i] = innerContainer[i+1];
+		}
+		size--;
+	}
+}
