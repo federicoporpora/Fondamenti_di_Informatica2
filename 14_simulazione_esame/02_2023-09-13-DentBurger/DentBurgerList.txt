@@ -1,0 +1,40 @@
+Piatto	Burger	Basic		4,90 €
+Piatto	Burger	Formaggio	7,20 €
+Piatto	Burger	Bacon		7,50 €
+Piatto	Burger	Pollo		6,90 €
+Piatto	Burger	Pesce		4,20 €
+Piatto	Burger	Veg		6,50 €
+Piatto	Toast	Classico	6,50 €
+Piatto	Burger	Senza glutine	8,80 €
+Piatto	Wrap	Veggie		7,40 €
+Piatto	Wrap	Megamix		9,50 €
+Piatto	Pollo	4 Crocchette	4,60 €
+Piatto	Pollo	6 Crocchette	5,80 €
+Piatto	Pollo	8 Crocchette	7,00 €
+Piatto	Pollo	Alette		3,90 €
+Piatto	Insalata	Verde	3,50 €
+Piatto	Insalata	Mista	3,80 €
+Piatto	Insalata	con pollo	5,20 €
+Contorno	Patatine	Medie	2,70 €
+Contorno	Patatine	Grandi	3,60 €
+Contorno	Patatine	Formaggio	5,50 €
+Bevanda	Cola	Media		3,50 €
+Bevanda	Cola	Grande		4,50 €
+Bevanda	Cola0	Media		3,80 €
+Bevanda	Cola0	Grande		4,80 €
+Bevanda	Acqua	Media		1,50 €
+Bevanda	Aranciata	Media	3,60 €
+Dessert	Gelato	Panna		1,30 €
+Dessert	Gelato	Panna e cioccolato	1,80 €
+Dessert	Gelato	Panna e fragola		1,80 €
+Dessert	Gelato	Panna e caramello	1,80 €
+Dessert	Pancake	con sciroppo		6,10 €
+Dessert	Muffin	cioccolato	4,80 €
+Dessert	Muffin	mirtilli	4,80 €
+Dessert	Donut	basic		2,00 €
+Dessert	Donut	cioccolato	2,20 €
+Condimento	Ketchup	bustina		0,30 €
+Condimento	Maionese	bustina	0,30 €
+Condimento	Senape	bustina		0,30 €
+Condimento	Sale	bustina		0,10 €
+Condimento	Pepe	bustina		0,10 €

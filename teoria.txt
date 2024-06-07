@@ -244,7 +244,7 @@ Nella classe NumberFormat ci sono 3 metodi get che fungono da factory
 		double x = 43.12345678, y = 0.7, z = 13456.78;
 		NumberFormat fN = NumberFormat.getNumberInstance();
 		NumberFormat fP = NumberFormat.getPercentInstance();
-		NumberFormat fV = NumberFormat.getCurrencyInstance();
+		NumberFormat fV = NumberFormat.getCurrencyInstance(Locale.ITALY); -> se non metto il Locale prende quello di default
 		
 		fN.setMaximumFractionDigits(2); --> configurazione
 		System.out.println( fN.format(x) ); --> 43,12
@@ -261,6 +261,15 @@ Nella classe NumberFormat ci sono 3 metodi get che fungono da factory
 I formattatori numerici supportano anche il parsing, che converte una stringa numerica in un tipo Number, che può essere utilizzato come double, float o int a piacere.
 Deve ovviamente essere correttamente formattata secondo le regole di una cultura locale.
 Va però saputa usare la gestione degli errori, sennò il programma non compila, quindi c'è da aspettare
+
+Per formattatori personalizzati devo usare un 'DecimalFormat', per esempio se volessi mettere il simbolo dell'euro prima della cifra:
+	DecimalFormat formatter = new DecimalFormat("¤\u00A0#,##0.00"); -> posso anche scrivere NumberFormat = new Decimal...
+		il simbolo '¤' è il sibolo di valuta
+		'\u00A' è lo spazio hard
+		'#,##0,00' indica il . come spazio tra le migliaia (ogni 3 cifre), i # come cifre facoltative e gli 0 come cifre che se non sono presenti vengono comunque messi degli 0 (controllalo che anche nelle slide
+			la virgola era invertita con il punto)
+	e se voglio anche i numeri negativi in modo particolare devo specificarlo:
+	var f = new DecimalFormat("¤ #,##0.00;¤ -#,##0.00");
 
 FORMATTATORI PER DATE E ORARI
 I metodi factory sono di nuovo gli 'of**(...)'. Invertono il pattern d'uso: dataora.format(formatter).
@@ -797,6 +806,25 @@ public Optional<Contact> getContact(int index) {
 		return Optional.empty();
 	}
 
+QUALI USARE?
+
+	− Regole generali per Set e Map
+		se serve l'ordinamento, necessariamente TreeMap e TreeSet
+			che implementano le sotto-interfacce SortedMap e SortedSet
+		altrimenti, HashMap e HashSet sono nettamente più efficienti
+			(tempo di esecuzione costante anziché log(N))
+	− Regole generali per List
+		di norma meglio ArrayList, che ha tempo di accesso costante
+			(anziché lineare con la posizione) perché è realizzata su array
+		preferire invece LinkedList se l'operazione più frequente è l'aggiunta
+			in testa o l'eliminazione di elementi in mezzo alla lista.
+	− Implementazioni specifiche per Set e Map:
+		se serve un ordine precidibile di iterazione,
+			LinkedHashMap e LinkedHashSet
+		caso particolare: se gli elementi del set o le chiavi della mappa sono
+			enumerativi, utile scegliere EnumMap ed EnumSet
+
+
 
 ECCEZIONI
 sono allarmi programmati lanciati da un'operazione quando si verifica una situazione anomala, l'allarme viene poi gestito.
@@ -930,6 +958,7 @@ COMPONENTI PASSIVI (che non generano eventi, sono solo grafici):
 		'appendText'
 		'setPrefColumnCount' (imposta la grandezza preferita dell'area di testo in termini di colonne)
 		'setEditable'
+		
 	genera eventi se cambia il contenuto dell'area di testo
 
 
@@ -1231,3 +1260,22 @@ public class FractionCollection {
 		size--;
 	}
 }
+
+
+
+
+
+
+
+
+
+COSA AGGIUNGERE:
+
+1. FORMATTATORI DA INPUT SU FILE DI TESTO
+	(COSA E' PARSEPOSITION)
+2. ECCEZIONI SU PARSE
+3. String[] items = line.split(SEPARATOR+"+"); (cosa è il +, immagino sia uno dei modi per dire alla split di prendere non solo un tab ma molti di seguito)
+4. persistenza in generale
+5. formattatori di percentuali e soldi, non sono spiegati
+6. comparatori con lamba expression
+7. formattatori per orari
