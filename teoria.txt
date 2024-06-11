@@ -258,10 +258,14 @@ Nella classe NumberFormat ci sono 3 metodi get che fungono da factory
 
 		System.out.println( fV.format(z) ); --> 1.243,57 € (fino a Java 8 il simbolo dell'euro era prima del valore, quindi occhio a retrocompatibilità)
 
-I formattatori numerici supportano anche il parsing, che converte una stringa numerica in un tipo Number, che può essere utilizzato come double, float o int a piacere.
-Deve ovviamente essere correttamente formattata secondo le regole di una cultura locale.
-Va però saputa usare la gestione degli errori, sennò il programma non compila, quindi c'è da aspettare
+	PARSING
+	Per effettuare il parsing utilizzando i formattatori numerici, innanzitutto va creato il formattatore, per esempio:
+		NumberFormat formatter = NumberFormat.getInstance();
+	poi si usa il metodo '.parse', gestendo le varie eccezioni ParseException.
+		Number number = decimalFormat.parse("1,234.56");
+	Ovviamente poi va convertito il Number che viene restituito dal metodo .parse in int, float o double.
 
+FORMATTATORI PERSONALIZZATI PER SOLDI O PERCENTUALI
 Per formattatori personalizzati devo usare un 'DecimalFormat', per esempio se volessi mettere il simbolo dell'euro prima della cifra:
 	DecimalFormat formatter = new DecimalFormat("¤\u00A0#,##0.00"); -> posso anche scrivere NumberFormat = new Decimal...
 		il simbolo '¤' è il sibolo di valuta
@@ -313,6 +317,13 @@ I formattatori per gli orari sono uguali a quelli per le date ma hanno solo due 
 
 Per formattatori che vogliono sia le date che l'orario si usa il metodo '.ofLocalizedDateTime(dateStyle, timeStyle)'.
 
+	PARSING
+	Anche questi formattatori possono essere utilizzati per fare parsing, infatti creando il formattatore, poi con il metodo '.parse' (che prende in
+	input il formattatore) posso prendere la data. Esempio:
+		LocalDate date = LocalDate.parse("12/06/2024", formatter);
+	oppure
+		LocalTime time = LocalTime.parse("14:30:15", formatter);
+	Entrambi lanciano DateTimeParseException.
 
 
 EREDITARIETA'
@@ -869,6 +880,80 @@ Posso poi andare ad accorpare eccezioni fisiche e logiche, per questa roba studi
 
 
 
+PERSISTENZA E IN PARTICOLARE SPLIT
+• Alcune notazioni di uso comune
+	– \\s uno spazio o assimilato (tab, etc.)
+	– \\t una tabulazione
+	– \\d una cifra numerica (\\D non cifra numerica)
+	– \\w un carattere non bianco
+• Da combinare con:
+	– ^… negazione (il contrario di ciò che segue)
+	– …* zero o più
+	– …+ uno o più
+	– (…) raggruppamento
+ESEMPI
+	\\s+ uno o più spazi (e assimilati)
+	\\t+ uno o più tab
+	\\d+ uno o più cifre
+	\\w+ uno o più caratteri non bianchi
+
+
+
+
+
+
+COMPARATORI
+
+esempio:
+	List<Person> people = new ArrayList<>();
+        people.add(new Person("Alice", 30));
+        people.add(new Person("Bob", 25));
+        people.add(new Person("Charlie", 35));
+
+        // Ordinare per età usando una lambda expression
+        people.sort((p1, p2) -> Integer.compare(p1.age, p2.age));
+        System.out.println("Ordinato per età: " + people);
+
+        // Ordinare per nome usando una lambda expression
+        people.sort((p1, p2) -> p1.name.compareTo(p2.name));
+        System.out.println("Ordinato per nome: " + people);
+
+Comparator.comparing:
+	List<Person> people = new ArrayList<>();
+        people.add(new Person("Alice", 30));
+        people.add(new Person("Bob", 25));
+        people.add(new Person("Charlie", 35));
+
+        // Ordinare per età usando Comparator.comparing
+        people.sort(Comparator.comparing(p -> p.age));
+        System.out.println("Ordinato per età: " + people);
+
+        // Ordinare per nome usando Comparator.comparing
+        people.sort(Comparator.comparing(p -> p.name));
+        System.out.println("Ordinato per nome: " + people);
+
+o meglio ancora
+	List<Person> people = new ArrayList<>();
+        people.add(new Person("Alice", 30));
+        people.add(new Person("Bob", 25));
+        people.add(new Person("Charlie", 35));
+
+        // Ordinare per età usando Comparator.comparing
+        people.sort(Comparator.comparing(Persona::getAge));
+        System.out.println("Ordinato per età: " + people);
+
+        // Ordinare per nome usando Comparator.comparing
+        people.sort(Comparator.comparing(Persona::getName));
+        System.out.println("Ordinato per nome: " + people);
+
+Per usare le liste per esempio nei TreeSet mi basta che nel momento in cui inizializzo il TreeSet invece di mettere la parentesi vuota
+	var set = new TreeSet<>();
+ci  metto il comparatore
+	var set = new TreeSet<>(comparator);
+e ovviamente posso fare una porcata come quella su
+	var persone = new TreeSet<Persona>(Comparator.comparing(Persona::getAge)); //qui sei il re di qualsiasi cosa
+
+
 
 
 JAVAFX
@@ -1006,7 +1091,7 @@ COMPONENTI ATTIVI E GESTIONE DEGLI EVENTI:
 		cb.setItems(FXCollections.observableArrayList("Rosso","Giallo","Verde", "Blu"));
 				  |> metodo factory apposta
 	anche questo ogni volta che viene cambiata l'opzione della combobox con la funzione 'setOnAction' manda un evento che fa quello che vogliamo noi
-
+	Per prendere il valore attuale si usa il metodo '.getValue()'
 
 	DATEPICKER
 	calendario. Di default si mette sulla data corrente, ma possiamo forzarlo a centrarsi in un'altra data a nostro piacimento.
@@ -1264,18 +1349,55 @@ public class FractionCollection {
 
 
 
+CrossWord= matrici, try sulla persistenza con parseInt, alfabeto su mainPane
+
+DentBurger= persistenza con prezzi, formattatore data/ora, mappe di mappe di liste/collection, 
+        comboBox inizializate-impegnative
+
+GringottBank= calcoli tra int, double e enum in model, persistenza da String a enum, split impegnativi, 
+        toggleButton, comboBox e alert
+
+SpeedCollage= metodi statici gia dati, persistenza impegnativa, tanti split particolari, tanti try-catch,
+        date picker
+
+CityParking= algebra degli orari, peristenza con prezzi, controller che gestisce stringe-LocaldateTime,
+        ui data e ora correnti, ui alert
+
+TaxComparator= formattatore di "1.234,56" -> new DecimalFormat("¤ #,##0.##"), StringBuilder in mezzo le 
+        palle su model, persistenza con formattatore NumberFormat 1.234, formatter anche in ui
+
+Agenda= sortedSet
+
+Oroscopi= set
+
+Meteo: classe formatters, model con stream(), persistenza con formatters data ora, SortedSet con comparator
+        sulla persistenza, set su popola combo
+
+SpeseSanitarie = stream semplice di somma e collezione su model.AnalizzatoreSpese e model.DocumentoDiSpesa
+
+TrainStatistics= Uso e controllo degli optional in model.Recording, Stream.avarenge() in model.AvarengeStatProvider
+        Lista di optional su persistenza bo cazzo ne so, SLIDER IN UI
+
+
+SLIDE 57 DI STREAM CI STANNO GLI ESEMPI
+
+RICORDA CHE ESISTE LA CLASSE MATH (tipo math.round approssima fra)
+
+Stream:
+    Avarenge() fa la media
+    mapTo..() cambia il tipo di dato
+    map() lo modifica
+    ES:
+    //Utilizzo di map() per raddoppiare ogni numero
+        int[] numeriDoppi = IntStream.of(numeri)
+                                     .map(n -> n * 2)
+                                     .toArray();
 
 
 
 
-
-COSA AGGIUNGERE:
-
-1. FORMATTATORI DA INPUT SU FILE DI TESTO
-	(COSA E' PARSEPOSITION)
-2. ECCEZIONI SU PARSE
-3. String[] items = line.split(SEPARATOR+"+"); (cosa è il +, immagino sia uno dei modi per dire alla split di prendere non solo un tab ma molti di seguito)
-4. persistenza in generale
-5. formattatori di percentuali e soldi, non sono spiegati
-6. comparatori con lamba expression
-7. formattatori per orari
+cose da ricordare
+1. metti sempre le variabili nei messaggi di errore, troubleshooting molto più semplice
+2. controllo null sempre prima dell'isEmpty, sennò viene lanciato NullPointerException
+3. fai sempre riga = reader.readLine() e non fare subito split, così controlli sempre se è null
+4. nel confronto di double non usare == ma Math.abs(valore1 - valore2) < 0.01
