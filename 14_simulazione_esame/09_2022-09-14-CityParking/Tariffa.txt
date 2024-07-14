@@ -1,0 +1,5 @@
+Durata unità = 15m
+Costo iniziale = 2,00 €
+Unità successive = 0,80 €
+Cap giornaliero = 35,00 €
+12h successive = 16,00 €

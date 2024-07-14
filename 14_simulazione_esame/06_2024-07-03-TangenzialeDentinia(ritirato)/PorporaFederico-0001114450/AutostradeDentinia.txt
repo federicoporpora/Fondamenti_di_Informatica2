@@ -1,0 +1,44 @@
+M3
+45	Petruvia Nord
+40	Petruvia Sud
+25	Aldino
+1	Dentinia Ippodromo
+0	Tangenziale
+END
+
+M4
+0	Tangenziale
+24	Castelbello
+37	Molla
+50	Forte
+77	Ripalta
+END
+
+M1
+85	Montelusa Centro
+78	Montelusa Z.I.
+48	Vigata ovest
+42	Vigata centro
+37	Vigata est
+12	Dentinia outlet
+0	Tangenziale
+END
+
+M2
+0	Tangenziale
+18	Sasso del Moro
+39	Val di Mezzo
+49	Val di Sopra
+76	Val d'Altrove
+END
+
+Tangenziale
+0	M2
+4	via dei colli
+9	M1
+13	Aeroporto
+19	M3
+23	Fiera
+26	Stadio
+32	M4
+END

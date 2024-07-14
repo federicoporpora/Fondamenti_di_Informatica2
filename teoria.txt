@@ -804,7 +804,7 @@ CERCARE PER INDICE IN UN SET
 private SortedSet<Contact> contactSet;
 
 public Optional<Contact> getContact(int index) {
-		List<Contact> list = new ArrayList<Contact> (contactSet);
+		List<Contact> list = new ArrayList<Contact>(contactSet);
 		if (index < list.size()&& index>=0)
 			return Optional.of(list.get(index));
 		/* SOLUZIONE ALTERNATIVA
@@ -881,22 +881,23 @@ Posso poi andare ad accorpare eccezioni fisiche e logiche, per questa roba studi
 
 
 PERSISTENZA E IN PARTICOLARE SPLIT
-• Alcune notazioni di uso comune
-	– \\s uno spazio o assimilato (tab, etc.)
-	– \\t una tabulazione
-	– \\d una cifra numerica (\\D non cifra numerica)
-	– \\w un carattere non bianco
-• Da combinare con:
-	– ^… negazione (il contrario di ciò che segue)
-	– …* zero o più
-	– …+ uno o più
-	– (…) raggruppamento
+	Alcune notazioni di uso comune
+		– \\s uno spazio o assimilato (tab, etc.)
+		– \\t una tabulazione
+		– \\d una cifra numerica (\\D non cifra numerica)
+		– \\w un carattere non bianco
+	Da combinare con:
+		– ^… negazione (il contrario di ciò che segue)
+		– …* zero o più
+		– …+ uno o più
+		– (…) raggruppamento
 ESEMPI
 	\\s+ uno o più spazi (e assimilati)
 	\\t+ uno o più tab
 	\\d+ uno o più cifre
 	\\w+ uno o più caratteri non bianchi
-
+ESEMPIO VERO
+	String[] parts = text.split("\\s+");
 
 
 
@@ -1270,15 +1271,88 @@ GRAFICI DA DIAPOSITIVA 120 (speriamo che non ci siano)
 
 
 
+STREAM
+1. crea lo stream
+2. operazioni sullo stream di oggetti
+3. conversione per andare ad utilizzare gli oggetti
+
+1. CREAZIONE
+	– dal metodo stream() invocato su qualsiasi collection
+	– dal factory method Stream.of(array) nel caso di array
+	– da altri factory methods di altre classi (es. Random)
+	- per i tipi primitivi ci sono stream propri: IntStream st = IntStream.of(valori);
+	
+	posso creare anche stream infiniti con i metodi .generate o .iterate come:
+		Stream<Double> s = Stream.generate(Math::random);
+		Stream<Integer> pari = Stream.iterate(2, n->n+2);
+
+2. OPERAZIONI SULLO STREAM
+	per esempio filtraggi, separazioni, modifiche, tutte fatte solitamente con lambda expression, per esempio per filtrare:
+		
+		ESEMPIO FILTRAGGIO PER STRINGHE PIU LUNGHE DI 8 (.filter)
+		Stream<String> st = elencoParole.stream();
+		long n = st.filter(p -> p.length() > 8 ).*riduzione*;
+		
+		ESEMPIO MODIFICA (.map)
+		Stream<String> st = elencoParole.stream();
+		List<String> paroleMaiuscole= st.map( p->p.toUpperCase() ).*riduzione*;
+		
+	trasformazioni più usate:
+		– filter(Predicate):
+			filtra nel nuovo stream-risultato solo gli elementi dello stream che soddisfano la condizione, ossia solo quelli
+			per cui il predicato è vero
+		– map(Function) [e variante mapToObj(Function)]:
+			applica a ogni elemento x dello stream la funzione data: y = f(x), producendo un nuovo stream con i rispettivi
+			risultati y (di tipo diverso dal primo). La variante mapToObj si usa per operare su stream di tipi primitivi,
+			producendo come risultato un nuovo stream di tipi-oggetto.
+		– flatMap(Function):
+			se la funzione Function produce come risultato uno stream (non un singolo elemento), la trasformazione
+			map darebbe come risultato uno stream di stream: flatMap li unisce in un unico stream, «appiattendo» il risultato
+		–limit(n):
+			lascia passare solo i primi n elementi (gli altri li butta) -> cruciale per limitare gli stream potenzialmente infiniti
+		–skip(n):
+			fa l’opposto, esclude i primi n elementi, fa passare gli altri
 
 
+3. SINTETIZZAZIONE
+	possono:
+		- limitarsi ad accumulare e mettere da un'altra parte (.collect)
+		- elaborare questi dati e dare un risultato
+		
+		ESEMPIO ACCUMULARE
+		long n = st.filter( p->p.length()>8 ).count();
+		List<String> paroleMaiuscole=st.map( p->p.toUpperCase() ).collect(Collectors.toList());
+		
+		se voglio fare accumulare in un array, invece di usare .collect, devo fare diretto .toArray con dentro la lambda del costruttore new:
+		ESEMPIO ACCUMULARE SU ARRAY
+		String[] nomi = st.map(Persona::nome).toArray(String[]::new);
+		oppure con tipi base:
+		int[] result = st.filter(x -> x>0).toArray(); // riduttore senza constructor interference, fa tutto in automatico
 
+	riduzioni più usate:
+		–count, min, max, average:
+			collettori che operano sugli elementi senza accumularli: rispettivamente conta gli elementi, trova il min, il max, la media… etc.
+		–collect(collector):
+			è il riduttore-accumulatore, che accumula gli elementi in un collettore (tipicamente, un array o una collection)
+		–reduce(function):
+			è il riduttore general-purpose, che applica a ogni elemento dello stream la funzione data: è tale funzione che specifica cosa
+			fare del risultato [disponibile in due varianti]
+		–forEach(operation):
+			riduttore che effettua un’iterazione interna, ripetendo l’operazione data su tutti gli elementi dello stream
+		–toList, toSet, toMap(fk,fv)
+		–toCollection(constructorRef):
+			Questo è il collettore più generale, che può accumulare in una qualsiasi collection, anche se per essa non esiste il collettore specifico
+			(caso d’uso tipico: per accumulare in un TreeSet o TreeMap)
+			ESEMPIO
+			Per accumulare in un TreeSet (concretizzazione di SortedSet), si può scrivere toCollection(TreeSet::new)
+		–groupingBy(criterio), partitioningBy(criterio):
+			riuniscono gli elementi "a gruppi" secondo il criterio dato; il risultato è una mappa con tante entry quanti i gruppi, e per ogni riga
+			la lista degli elementi dello stesso gruppo (esistono varianti per altre collection)
+		–summarizingXX, summingXX, averagingXX (XX = Int, Long, Double):
+			anche questi riuniscono gli elementi "a gruppi", ma il criterio «è nel nome» del collettore: il risultato è una mappa con tante entry
+			quanti i gruppi e come valore il risultato (somma, media, etc.) del gruppo
 
-
-
-
-
-
+DA 49 STREAM DI TIPI PRIMITIVI
 
 
 
