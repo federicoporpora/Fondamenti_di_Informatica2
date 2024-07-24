@@ -1,7 +1,6 @@
 package rfd.model.test;
 
 import org.junit.jupiter.api.Test;
-
 import rfd.model.MyPointOfInterest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
